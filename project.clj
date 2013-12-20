@@ -4,10 +4,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :resource-paths ["etc"]
+  :min-lein-version "2.0.0"
   :plugins [[lein-expectations "0.0.7"]]
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [clj-http "0.6.4"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [clj-http "0.7.8"]
                  [pasha "2.0"]
-                 [clj-time "0.4.4"]
-                 [expectations "1.4.33"]
-                 [sonian/carica "1.0.2"]])
+                 [clj-time "0.6.0"]
+                 [expectations "1.4.56"]
+                 [sonian/carica "1.0.4"]])
