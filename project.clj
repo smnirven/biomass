@@ -7,8 +7,7 @@
   :min-lein-version "2.0.0"
   :plugins [[lein-expectations "0.0.7"]]
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [ring/ring-codec "1.0.0"]
                  [clj-http "0.7.8"]
-                 [pasha "2.0"]
                  [clj-time "0.6.0"]
-                 [expectations "1.4.56"]
-                 [sonian/carica "1.0.4"]])
+                 [expectations "1.4.56"]])
