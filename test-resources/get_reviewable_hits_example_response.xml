@@ -1,0 +1,11 @@
+<GetReviewableHITsResult>
+  <Request>
+    <IsValid>True</IsValid>
+  </Request>
+  <NumResults>1</NumResults>
+  <TotalNumResults>1</TotalNumResults>
+  <PageNumber>1</PageNumber>
+  <HIT>
+    <HITId>GBHZVQX3EHXZ2AYDY2T0</HITId>
+  </HIT>
+</GetReviewableHITsResult>
