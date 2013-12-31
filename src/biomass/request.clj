@@ -10,7 +10,7 @@
 (defonce $HMAC_ALGORITHM "HmacSHA1")
 (defonce $API_VERSION "2012-03-25")
 (defonce $SERVICE "AWSMechanicalTurkRequester")
-(defonce $BASE_URL "https://mechanicalturk.amazonaws.com/")
+(defonce $BASE_URL "https://mechanicalturk.sandbox.amazonaws.com/")
 
 (def aws-access-key (ref nil))
 (def aws-secret-access-key (ref nil))
@@ -25,7 +25,7 @@
   "Generates an RFC 2104 compliant HMAC for AWS authentication as
   outlined in the following article:
   http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequests_RequestAuthenticationArticle.html"
-  [{:keys [operation timestamp]}]
+  [operation timestamp]
   (let [data (str $SERVICE operation timestamp)
         signing-key (SecretKeySpec. (.getBytes @aws-secret-access-key) $HMAC_ALGORITHM)
         mac (doto (Mac/getInstance $HMAC_ALGORITHM) (.init signing-key))]
@@ -42,9 +42,10 @@
      :Version $API_VERSION
      :Service $SERVICE
      :Timestamp ts
-     :Signature (gen-aws-signature {:operation operation :timestamp ts})}))
+     :Signature (gen-aws-signature operation ts)
+     :Operation operation}))
 
 (defn send-request
-  [{:keys [Operation] :as params}]
-  (let [final-params (merge params (get-default-params Operation))]
+  [operation params]
+  (let [final-params (merge params (get-default-params operation))]
     (client/get $BASE_URL {:query-params final-params})))

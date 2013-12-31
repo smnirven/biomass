@@ -16,3 +16,8 @@
   [s]
   (when-not (empty? s)
     (tf/parse (tf/formatters :date-time-no-ms) s)))
+
+(defn nil-or-boolean
+  [s]
+  (when-not (empty? s)
+    (Boolean/parseBoolean s)))

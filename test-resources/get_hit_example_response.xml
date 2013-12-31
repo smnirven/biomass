@@ -1,43 +1,63 @@
-<HIT>
-  <Request>
-    <IsValid>True</IsValid>
-  </Request>
-  <HITId>ZZRZPTY4ERDZWJ868JCZ</HITId>
-  <HITTypeId>NYVZTQ1QVKJZXCYZCZVZ</HITTypeId>
-  <CreationTime>2009-07-07T00:56:40Z</CreationTime>
-  <Title>Location</Title>
-  <Description>Select the image that best represents</Description>
-  <Question>
-    <QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurk
-                         DataSchemas/2005-10-01/QuestionForm.xsd">
-      <Question>
-        <QuestionIdentifier>Question100</QuestionIdentifier>
-        <DisplayName>My Question</DisplayName>
-        <IsRequired>true</IsRequired>
-        <QuestionContent>
-          <Binary>
-            <MimeType>
-              <Type>image</Type>
-              <SubType>gif</SubType>
-            </MimeType>
-            <DataURL>http://tictactoe.amazon.com/game/01523/board.gif</DataURL>
-            <AltText>The game board, with "X" to move.</AltText>
-          </Binary>
-        </QuestionContent>
-        <AnswerSpecification><FreeTextAnswer/></AnswerSpecification>
-      </Question>
-    </QuestionForm>
-  </Question>
-  <HITStatus>Assignable</HITStatus>
-  <MaxAssignments>1</MaxAssignments>
-  <Reward>
-    <Amount>5.00</Amount>
-    <CurrencyCode>USD</CurrencyCode>
-    <FormattedPrice>$5.00</FormattedPrice>
-  </Reward>
-  <AutoApprovalDelayInSeconds>2592000</AutoApprovalDelayInSeconds>
-  <Expiration>2009-07-14T00:56:40Z</Expiration>
-  <AssignmentDurationInSeconds>30</AssignmentDurationInSeconds>
-  <NumberOfSimilarHITs>1</NumberOfSimilarHITs>
-  <HITReviewStatus>NotReviewed</HITReviewStatus>
-</HIT>
+<?xml version="1.0"?>
+<GetHITResponse>
+  <OperationRequest>
+    <RequestId>ff72a6c9-33f5-477d-8cd9-c9a43708c965</RequestId>
+  </OperationRequest>
+  <HIT>
+    <Request>
+      <IsValid>True</IsValid>
+    </Request>
+    <HITId>25DR14IXKO2PYKGU0J1603YOPE3ABI</HITId>
+    <HITTypeId>2FYPQJQ9OPLPMU6AAEOGBKCOZ9F1ZT</HITTypeId>
+    <HITGroupId>2C4PHMVHVKCNPJ00QUVJA9LR0B835B</HITGroupId>
+    <HITLayoutId>2N933FDEY5CSLIKWFMU8FRFLC8M1SF</HITLayoutId>
+    <CreationTime>2013-12-28T17:48:56Z</CreationTime>
+    <Title>Find the Website Address for Restaurants</Title>
+    <Description>Given the restaurant information, find the URL for their official website</Description>
+    <Question>&lt;?xml version="1.0"?&gt;
+    &lt;HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd"&gt;
+    &lt;HTMLContent&gt;&lt;![CDATA[&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;HIT&lt;/title&gt;&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/&gt;&lt;script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'&gt;&lt;/script&gt;&lt;/head&gt;&lt;body&gt;&lt;form name="mturk_form" method="post" id="mturk_form" action="https://www.mturk.com/mturk/externalSubmit"&gt;&lt;input type="hidden" value="" name="assignmentId" id="assignmentId" /&gt;&lt;h3&gt;Find the Website Address for this Restaurant&lt;/h3&gt;&#xd;
+    &#xd;
+    &lt;div class="highlight-box"&gt;&#xd;
+    &lt;ul&gt;&#xd;
+    &lt;li&gt;For this restaurant below, enter the website address for the official website of the restaurant&lt;/li&gt;&#xd;
+    &lt;li&gt;Include the full address, e.g. http://www.thecheesecakefactory.com&lt;/li&gt;&#xd;
+    &lt;li&gt;Do not include URLs to city guides and listings like Citysearch.&lt;/li&gt;&#xd;
+    &lt;/ul&gt;&#xd;
+    &lt;/div&gt;&#xd;
+    &#xd;
+    &lt;p&gt;Restaurant Name: &lt;b&gt;Generic Restaurant Here&lt;/b&gt;&lt;/p&gt;&#xd;
+    &#xd;
+    &lt;p&gt;Address: &lt;b&gt;123 W. Main St.&lt;/b&gt;&lt;/p&gt;&#xd;
+    &#xd;
+    &lt;p&gt;Phone Number: &lt;b&gt;123-456-7890&lt;/b&gt;&lt;/p&gt;&#xd;
+    &#xd;
+    &lt;p&gt;Website Address:&lt;/p&gt;&#xd;
+    &#xd;
+    &lt;p&gt;&lt;input id="Q1Url" name="Q1Url" size="100" type="text" /&gt;&lt;/p&gt;&#xd;
+    &#xd;
+    &lt;p&gt;&#xd;
+    &lt;style type="text/css"&gt;&lt;!--&#xd;
+    .highlight-box { border:solid 0px #98BE10; background:#FCF9CE; color:#222222; padding:4px; text-align:left; font-size: smaller;}&#xd;
+    --&gt;&#xd;
+    &lt;/style&gt;&#xd;
+    &lt;/p&gt;&#xd;
+    &lt;p&gt;&lt;input type="submit" id="submitButton" value="Submit" /&gt;&lt;/p&gt;&lt;/form&gt;&lt;script language="Javascript"&gt;turkSetAssignmentID();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;]]&gt;&lt;/HTMLContent&gt;
+    &lt;FrameHeight&gt;400&lt;/FrameHeight&gt;
+    &lt;/HTMLQuestion&gt;
+    </Question>
+    <Keywords>data collection, restaurants, listings</Keywords>
+    <HITStatus>Assignable</HITStatus>
+    <MaxAssignments>3</MaxAssignments>
+    <Reward>
+      <Amount>0.02</Amount>
+      <CurrencyCode>USD</CurrencyCode>
+      <FormattedPrice>$0.02</FormattedPrice>
+    </Reward>
+    <AutoApprovalDelayInSeconds>604800</AutoApprovalDelayInSeconds>
+    <Expiration>2014-01-04T17:48:56Z</Expiration>
+    <AssignmentDurationInSeconds>3600</AssignmentDurationInSeconds>
+    <RequesterAnnotation>BatchId:62636;</RequesterAnnotation>
+    <HITReviewStatus>NotReviewed</HITReviewStatus>
+  </HIT>
+</GetHITResponse>
