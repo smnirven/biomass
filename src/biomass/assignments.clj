@@ -13,3 +13,8 @@
   [hit-id]
   {:pre [(string? hit-id) (not (empty? hit-id))]}
   (send-and-parse "GetAssignmentsForHIT" {:HITId hit-id}))
+
+(defn get-assignment
+  [assignment-id]
+  {:pre [(string? assignment-id) (not (empty? assignment-id))]}
+  (send-and-parse "GetAssignment" {:AssignmentId assignment-id}))

@@ -39,6 +39,24 @@
                                                result
                                                "/Assignment") doc))}}))
 
+(defmethod parse-by-operation "GetAssignment"
+  [{:keys [doc xml]}]
+  (let [base-xpath "/GetAssignmentResponse"
+        result "/GetAssignmentResult"]
+    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId") doc)}
+     :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                                    result
+                                                                    "/Request/IsValid") doc))}
+              :assignment (parse-single-assignment ($x:node? (str base-xpath
+                                                                  result
+                                                                  "/Assignment") doc))
+              :hit {:hit-id ($x:text? (str base-xpath
+                                           result
+                                           "/HIT/HITId") doc)
+                    :hit-type-id ($x:text? (str base-xpath
+                                                result
+                                                "/HIT/HITTypeId") doc)}}}))
+
 (defn parse
   [operation xml-response-body]
   (parse-by-operation {:operation operation
