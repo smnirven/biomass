@@ -18,3 +18,8 @@
   [assignment-id]
   {:pre [(string? assignment-id) (not (empty? assignment-id))]}
   (send-and-parse "GetAssignment" {:AssignmentId assignment-id}))
+
+(defn approve-assignment
+  [assignment-id]
+  {:pre [(string? assignment-id) (not (empty? assignment-id))]}
+  (send-and-parse "ApproveAssignment" {:AssignmentId assignment-id}))

@@ -57,6 +57,15 @@
                                                 result
                                                 "/HIT/HITTypeId") doc)}}}))
 
+(defmethod parse-by-operation "ApproveAssignment"
+  [{:keys [doc xml]}]
+  (let [base-xpath "/ApproveAssignmentResponse"
+        result "/ApproveAssignmentResult"]
+    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId") doc)}
+     :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                                    result
+                                                                    "/Request/IsValid") doc))}}}))
+
 (defn parse
   [operation xml-response-body]
   (parse-by-operation {:operation operation
