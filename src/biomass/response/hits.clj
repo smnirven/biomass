@@ -32,26 +32,27 @@
    :number-of-assignments-completed (util/nil-or-integer
                                      ($x:text? "NumberOfAssignmentsCompleted" doc))})
 
-(defn- parse-get-hit-response
-  [doc]
+(defmulti parse-by-operation #(:operation %))
+
+(defmethod parse-by-operation "GetHIT"
+  [{:keys [doc]}]
   {:operation-request {:request-id ($x:text? "/GetHITResponse/OperationRequest/RequestId" doc)}
    :hits (map #(parse-single-hit %) ($x:node* "/GetHITResponse/HIT" doc))})
 
-
-(defn- parse-get-reviewable-hits-response
-  [doc]
+(defmethod parse-by-operation "GetReviewableHITs"
+  [{:keys [doc]}]
   {:operation-request {:request-id ($x:text? "/GetReviewableHITsResponse/OperationRequest/RequestId" doc)}
-   :get-reviewable-hits-result {:request {:is-valid ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/Request/IsValid" doc)}
+   :get-reviewable-hits-result {:request {:valid? (util/nil-or-boolean ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/Request/IsValid" doc))}
                                 :num-results (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/NumResults" doc))
                                 :total-num-results (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/TotalNumResults" doc))
                                 :page-number (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/PageNumber" doc))
                                 :hits (map #(parse-single-hit %)
                                            ($x:node* "/GetReviewableHITsResponse/GetReviewableHITsResult/HIT" doc))}})
 
-(defn- parse-search-hits-response
-  [doc]
+(defmethod parse-by-operation "SearchHITs"
+  [{:keys [doc]}]
   {:operation-request {:request-id ($x:text? "/SearchHITsResponse/OperationRequest/RequestId" doc)}
-   :search-hits-result {:request {:is-valid ($x:text? "/SearchHITsResponse/SearchHITsResult/Request/IsValid" doc)}
+   :search-hits-result {:request {:valid? (util/nil-or-boolean ($x:text? "/SearchHITsResponse/SearchHITsResult/Request/IsValid" doc))}
                         :num-results (util/nil-or-integer ($x:text? "/SearchHITsResponse/SearchHITsResult/NumResults" doc))
                         :total-num-results (util/nil-or-integer ($x:text? "/SearchHITsResponse/SearchHITsResult/TotalNumResults" doc))
                         :page-number (util/nil-or-integer ($x:text? "/SearchHITsResponse/SearchHITsResult/PageNumber" doc))
@@ -59,22 +60,26 @@
                                    ($x:node* "/SearchHITsResponse/SearchHITsResult/HIT"
                                              doc))}})
 
-(defn- parse-disable-hit-response
-  [doc]
-  {:request {:valid (util/nil-or-boolean ($x:text? "/DisableHITResponse/DisableHITResult/Request/IsValid" doc))}})
+(defmethod parse-by-operation "DisableHIT"
+  [{:keys [doc]}]
+  {:request {:valid? (util/nil-or-boolean ($x:text? "/DisableHITResponse/DisableHITResult/Request/IsValid" doc))}})
 
-(defn- parse-dispose-hit-response
-  [doc]
-  {:request {:valid (util/nil-or-boolean ($x:text? "/DisposeHITResponse/DisposeHITResult/Request/IsValid" doc))}})
+(defmethod parse-by-operation "DisposeHIT"
+  [{:keys [doc]}]
+  {:request {:valid? (util/nil-or-boolean ($x:text? "/DisposeHITResponse/DisposeHITResult/Request/IsValid" doc))}})
 
-(def $OP_TO_PARSER {"GetHIT" parse-get-hit-response
-                    "GetReviewableHITs" parse-get-reviewable-hits-response
-                    "SearchHITs" parse-search-hits-response
-                    "DisableHIT" parse-disable-hit-response
-                    "DisposeHIT" parse-dispose-hit-response})
+(defmethod parse-by-operation "RegisterHITType"
+  [{:keys [doc xml]}]
+  {:operation-request {:request-id ($x:text? "/RegisterHITTypeResponse/OperationRequest/RequestId" doc)}
+   :register-hit-type-result {:request {:valid? (util/nil-or-boolean ($x:text? "/RegisterHITTypeResponse/RegisterHITTypeResult/Request/IsValid" doc))}
+                              :hit-type-id ($x:text? "/RegisterHITTypeResponse/RegisterHITTypeResult/HITTypeId" doc)}})
+
+(defmethod parse-by-operation "CreateHIT"
+  [{:keys [doc xml]}]
+  xml)
 
 (defn parse
   [operation xml-response-body]
-  (let [doc (xml->doc xml-response-body)
-        parser (get $OP_TO_PARSER operation)]
-    (parser doc)))
+  (parse-by-operation {:operation operation
+                       :doc (xml->doc xml-response-body)
+                       :xml xml-response-body}))

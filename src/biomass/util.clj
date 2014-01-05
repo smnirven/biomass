@@ -21,3 +21,9 @@
   [s]
   (when-not (empty? s)
     (Boolean/parseBoolean s)))
+
+(defn restify-layout-params
+  [params]
+  (let [convert #(hash-map (keyword (str "HITLayoutParameter." %1 ".Name")) (name (first %2))
+                           (keyword (str "HITLayoutParameter." %1 ".Value")) (second %2))]
+    (reduce merge (map convert (range) params))))
