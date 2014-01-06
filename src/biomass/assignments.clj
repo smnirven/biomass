@@ -23,3 +23,16 @@
   [assignment-id]
   {:pre [(string? assignment-id) (not (empty? assignment-id))]}
   (send-and-parse "ApproveAssignment" {:AssignmentId assignment-id}))
+
+(defn reject-assignment
+  ([assignment-id] (reject-assignment assignment-id {}))
+  ([assignment-id {:keys [requester-feedback]}]
+     {:pre [(string? assignment-id) (not (empty? assignment-id))]}
+     (let [args {:AssignmentId assignment-id}]
+       (if-not (empty? requester-feedback)
+         (send-and-parse "RejectAssignment"
+                         (merge args
+                                {:RequesterFeedback requester-feedback}))
+         (send-and-parse "RejectAssignment" args)))))
+
+

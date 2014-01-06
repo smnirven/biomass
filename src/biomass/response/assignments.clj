@@ -21,19 +21,24 @@
   [{:keys [doc xml]}]
   (let [base-xpath "/GetAssignmentsForHITResponse"
         result "/GetAssignmentsForHITResult"]
-    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId") doc)}
+    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId")
+                                     doc)}
      :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
                                                                     result
-                                                                    "/Request/IsValid") doc))}
+                                                                    "/Request/IsValid")
+                                                               doc))}
               :num-results (util/nil-or-integer ($x:text? (str base-xpath
                                                                result
-                                                               "/NumResults") doc))
+                                                               "/NumResults")
+                                                          doc))
               :total-num-results (util/nil-or-integer ($x:text? (str base-xpath
                                                                result
-                                                               "/TotalNumResults") doc))
+                                                               "/TotalNumResults")
+                                                                doc))
               :page-number (util/nil-or-integer ($x:text? (str base-xpath
                                                                result
-                                                               "/PageNumber") doc))
+                                                               "/PageNumber")
+                                                          doc))
               :assignments (map #(parse-single-assignment %)
                                 ($x:node* (str base-xpath
                                                result
@@ -49,22 +54,37 @@
                                                                     "/Request/IsValid") doc))}
               :assignment (parse-single-assignment ($x:node? (str base-xpath
                                                                   result
-                                                                  "/Assignment") doc))
+                                                                  "/Assignment")
+                                                             doc))
               :hit {:hit-id ($x:text? (str base-xpath
                                            result
                                            "/HIT/HITId") doc)
                     :hit-type-id ($x:text? (str base-xpath
                                                 result
-                                                "/HIT/HITTypeId") doc)}}}))
+                                                "/HIT/HITTypeId")
+                                           doc)}}}))
 
 (defmethod parse-by-operation "ApproveAssignment"
   [{:keys [doc xml]}]
   (let [base-xpath "/ApproveAssignmentResponse"
         result "/ApproveAssignmentResult"]
-    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId") doc)}
+    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId")
+                                     doc)}
      :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
                                                                     result
-                                                                    "/Request/IsValid") doc))}}}))
+                                                                    "/Request/IsValid")
+                                                               doc))}}}))
+
+(defmethod parse-by-operation "RejectAssignment"
+  [{:keys [doc xml]}]
+  (let [base-xpath "/RejectAssignmentResponse"
+        result "/RejectAssignmentResult"]
+    {:request {:request-id ($x:text? (str base-xpath "/OperationRequest/RequestId")
+                                     doc)}
+     :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                                    result
+                                                                    "/Request/IsValid")
+                                                               doc))}}}))
 
 (defn parse
   [operation xml-response-body]
