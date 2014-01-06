@@ -36,18 +36,40 @@
 
 (defmethod parse-by-operation "GetHIT"
   [{:keys [doc]}]
-  {:operation-request {:request-id ($x:text? "/GetHITResponse/OperationRequest/RequestId" doc)}
-   :hits (map #(parse-single-hit %) ($x:node* "/GetHITResponse/HIT" doc))})
+  (let [base-xpath "/GetHITResponse"]
+    {:request {:request-id ($x:text? (str base-xpath
+                                          "/OperationRequest/RequestId")
+                                     doc)}
+     :hits (map #(parse-single-hit %) ($x:node* "/GetHITResponse/HIT" doc))}))
 
 (defmethod parse-by-operation "GetReviewableHITs"
   [{:keys [doc]}]
-  {:operation-request {:request-id ($x:text? "/GetReviewableHITsResponse/OperationRequest/RequestId" doc)}
-   :get-reviewable-hits-result {:request {:valid? (util/nil-or-boolean ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/Request/IsValid" doc))}
-                                :num-results (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/NumResults" doc))
-                                :total-num-results (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/TotalNumResults" doc))
-                                :page-number (util/nil-or-integer ($x:text? "/GetReviewableHITsResponse/GetReviewableHITsResult/PageNumber" doc))
-                                :hits (map #(parse-single-hit %)
-                                           ($x:node* "/GetReviewableHITsResponse/GetReviewableHITsResult/HIT" doc))}})
+  (let [base-xpath "GetReviewableHITsResponse"
+        result "GetReviewableHITsResult"]
+    {:request {:request-id ($x:text? (str base-xpath
+                                          "/OperationRequest/RequestId")
+                                     doc)}
+     :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                                    result
+                                                                    "/Request/IsValid")
+                                                               doc))}
+              :num-results (util/nil-or-integer ($x:text? (str base-xpath
+                                                               result
+                                                               "/NumResults")
+                                                          doc))
+              :total-num-results (util/nil-or-integer ($x:text? (str base-xpath
+                                                                     result
+                                                                     "/TotalNumResults")
+                                                                doc))
+              :page-number (util/nil-or-integer ($x:text? (str base-xpath
+                                                               result
+                                                               "/PageNumber")
+                                                          doc))
+              :hits (map #(parse-single-hit %)
+                         ($x:node* (str base-xpath
+                                        result
+                                        "/HIT")
+                                   doc))}}))
 
 (defmethod parse-by-operation "SearchHITs"
   [{:keys [doc]}]
@@ -76,17 +98,33 @@
 
 (defmethod parse-by-operation "DisableHIT"
   [{:keys [doc]}]
-  {:request {:valid? (util/nil-or-boolean ($x:text? "/DisableHITResponse/DisableHITResult/Request/IsValid" doc))}})
+  (let [base-xpath "/DisableHITResponse/DisableHITResult"]
+    {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                           "/Request/IsValid")
+                                                      doc))}}))
 
 (defmethod parse-by-operation "DisposeHIT"
   [{:keys [doc]}]
-  {:request {:valid? (util/nil-or-boolean ($x:text? "/DisposeHITResponse/DisposeHITResult/Request/IsValid" doc))}})
+  (let [base-xpath "/DisposeHITResponse/DisposeHITResult"]
+    {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                           "/Request/IsValid")
+                                                      doc))}}))
 
 (defmethod parse-by-operation "RegisterHITType"
   [{:keys [doc xml]}]
-  {:operation-request {:request-id ($x:text? "/RegisterHITTypeResponse/OperationRequest/RequestId" doc)}
-   :register-hit-type-result {:request {:valid? (util/nil-or-boolean ($x:text? "/RegisterHITTypeResponse/RegisterHITTypeResult/Request/IsValid" doc))}
-                              :hit-type-id ($x:text? "/RegisterHITTypeResponse/RegisterHITTypeResult/HITTypeId" doc)}})
+  (let [base-xpath "/RegisterHITTypeResponse"
+        result "/RegisterHITTypeResult"]
+    {:request {:request-id ($x:text? (str base-xpath
+                                          "/OperationRequest/RequestId")
+                                     doc)}
+     :result {:request {:valid? (util/nil-or-boolean ($x:text? (str base-xpath
+                                                                    result
+                                                                    "/Request/IsValid")
+                                                               doc))}
+              :hit-type-id ($x:text? (str base-xpath
+                                          result
+                                          "/HITTypeId")
+                                     doc)}}))
 
 (defmethod parse-by-operation "CreateHIT"
   [{:keys [doc xml]}]
