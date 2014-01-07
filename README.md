@@ -10,7 +10,7 @@ Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
 # Installation
 
-`biomass` is available as a Maven artifact from [Clojars](http://clojars.org/biomass)
+`biomass` is available as a Maven artifact from [Clojars](http://clojars.org/com.smnirven/biomass)
 ```clojure
 [com.smniven/biomass "0.5.0"]
 ```
