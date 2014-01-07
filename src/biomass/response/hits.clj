@@ -32,7 +32,7 @@
    :number-of-assignments-completed (util/nil-or-integer
                                      ($x:text? "NumberOfAssignmentsCompleted" doc))})
 
-(defmulti parse-by-operation #(:operation %))
+(defmulti parse-by-operation :operation)
 
 (defmethod parse-by-operation "GetHIT"
   [{:keys [doc]}]

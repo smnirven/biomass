@@ -15,7 +15,7 @@
    :answer ($x:text? "Answer" doc)}) ;;TODO: WTF should I do with the
 ;;answer XML?
 
-(defmulti parse-by-operation #(:operation %))
+(defmulti parse-by-operation :operation)
 
 (defmethod parse-by-operation "GetAssignmentsForHIT"
   [{:keys [doc xml]}]
