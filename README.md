@@ -8,6 +8,9 @@
 
 Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
+# Kudos
+Kudos to [Robert Boyd] (https://github.com/rboyd) for the original implementation and inspiration 
+
 # Installation
 
 `biomass` is available as a Maven artifact from [Clojars](http://clojars.org/com.smnirven/biomass)
