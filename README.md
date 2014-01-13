@@ -48,6 +48,7 @@ Example of creating a HIT:
                             :layout-params {:layout-parameter1 "This is a variable defined in the layout"
                                             :layout-parameter2 "This is another"}})
 ```
+[Check out the wiki for more usage examples](https://github.com/smnirven/biomass/wiki)
 
 ## License
 
