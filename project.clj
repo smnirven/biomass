@@ -10,4 +10,5 @@
                  [clj-time "0.6.0"]
                  [com.github.kyleburton/clj-xpath "1.4.3"]]
   :profiles {:dev {:dependencies [[midje "1.6.0"]]
-                   :resource-paths ["test-resources"]}})
+                   :resource-paths ["test-resources"]
+                   :plugins [[lein-midje "3.0.0"]]}})
