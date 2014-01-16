@@ -8,4 +8,6 @@
                  [ring/ring-codec "1.0.0"]
                  [clj-http "0.7.8"]
                  [clj-time "0.6.0"]
-                 [com.github.kyleburton/clj-xpath "1.4.3"]])
+                 [com.github.kyleburton/clj-xpath "1.4.3"]]
+  :profiles {:dev {:dependencies [[midje "1.6.0"]]
+                   :resource-paths ["test-resources"]}})
