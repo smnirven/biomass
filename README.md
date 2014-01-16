@@ -8,6 +8,8 @@
 
 Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
+#Build Status
+[![Build Status](https://api.travis-ci.org/smnirven/biomass.png)](http://travis-ci.org/smnirven/biomass)
 # Kudos
 Kudos to [Robert Boyd] (https://github.com/rboyd) for the original implementation and inspiration 
 
