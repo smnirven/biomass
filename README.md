@@ -8,6 +8,8 @@
 
 Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
+biomass is an implementation of the Amazon Web Services Mechanical Turk REST API in clojure.
+
 #Build Status
 [![Build Status](https://api.travis-ci.org/smnirven/biomass.png)](http://travis-ci.org/smnirven/biomass)
 [![Dependency Status](https://www.versioneye.com/user/projects/52de9f66ec1375d5f7000473/badge.png)](https://www.versioneye.com/user/projects/52de9f66ec1375d5f7000473)
