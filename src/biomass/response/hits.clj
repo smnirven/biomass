@@ -44,8 +44,8 @@
 
 (defmethod parse-by-operation "GetReviewableHITs"
   [{:keys [doc]}]
-  (let [base-xpath "GetReviewableHITsResponse"
-        result "GetReviewableHITsResult"]
+  (let [base-xpath "/GetReviewableHITsResponse"
+        result "/GetReviewableHITsResult"]
     {:request {:request-id ($x:text? (str base-xpath
                                           "/OperationRequest/RequestId")
                                      doc)}
