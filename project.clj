@@ -10,7 +10,7 @@
                                                 crouton
                                                 org.clojure/tools.reader
                                                 commons-codec]] ;; only this because ring-codec is behind
-                 [clj-time "0.6.0"]
+                 [clj-time "0.7.0"]
                  [com.github.kyleburton/clj-xpath "1.4.3"]]
   :profiles {:dev {:dependencies [[midje "1.6.2"]]
                    :resource-paths ["test-resources"]
