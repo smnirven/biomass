@@ -19,9 +19,8 @@ Kudos to [Robert Boyd] (https://github.com/rboyd) for the original implementatio
 # Installation
 
 `biomass` is available as a Maven artifact from [Clojars](http://clojars.org/com.smnirven/biomass)
-```clojure
-[com.smniven/biomass "0.5.1"]
-```
+
+![Clojars Project](http://clojars.org/com.smnirven/biomass/latest-version.svg)
 
 # Configuration
 
