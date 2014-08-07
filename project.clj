@@ -1,4 +1,4 @@
-(defproject com.smnirven/biomass "0.5.1"
+(defproject com.smnirven/biomass "0.5.2"
   :description "Boss people around. No suit required."
   :url "https://github.com/smnirven/biomass"
   :license {:name "Eclipse Public License"
