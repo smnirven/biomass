@@ -10,16 +10,19 @@
 (defonce $HMAC_ALGORITHM "HmacSHA1")
 (defonce $API_VERSION "2012-03-25")
 (defonce $SERVICE "AWSMechanicalTurkRequester")
-(defonce $BASE_URL "https://mechanicalturk.sandbox.amazonaws.com/")
+(defonce $SANDBOX_BASE_URL "https://mechanicalturk.sandbox.amazonaws.com/")
+(defonce $PRODUCTION_BASE_URL "https://mechanicalturk.amazonaws.com/")
 
 (def aws-access-key (ref nil))
 (def aws-secret-access-key (ref nil))
+(def base-url (ref nil))
 
-(defn set-aws-creds
-  [{:keys [AWSAccessKey AWSSecretAccessKey]}]
+(defn setup
+  [{:keys [AWSAccessKey AWSSecretAccessKey sandbox] :or [sandbox false]}]
   (dosync
    (ref-set aws-access-key AWSAccessKey)
-   (ref-set aws-secret-access-key AWSSecretAccessKey)))
+   (ref-set aws-secret-access-key AWSSecretAccessKey)
+   (ref-set base-url (if sandbox $SANDBOX_BASE_URL $PRODUCTION_BASE_URL))))
 
 (defn gen-aws-signature
   "Generates an RFC 2104 compliant HMAC for AWS authentication as
@@ -48,4 +51,4 @@
 (defn send-request
   [operation params]
   (let [final-params (merge params (get-default-params operation))]
-    (client/get $BASE_URL {:query-params final-params})))
+    (client/get @base-url {:query-params final-params})))
