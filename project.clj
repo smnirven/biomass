@@ -11,6 +11,7 @@
                                                 org.clojure/tools.reader
                                                 commons-codec]] ;; only this because ring-codec is behind
                  [clj-time "0.7.0"]
+                 [prismatic/schema "0.2.6"]
                  [com.github.kyleburton/clj-xpath "1.4.3"]]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
                    :resource-paths ["test-resources"]
