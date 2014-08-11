@@ -27,8 +27,16 @@ Kudos to [Robert Boyd] (https://github.com/rboyd) for the original implementatio
 Before making any requests, be sure to set your AWS credentials
 
 ```clojure
-(biomass.request/set-aws-creds {:AWSAccessKey    "deadbeef"
-                                :AWSSecretAccessKey "cafebabe"})
+(biomass.request/setup {:AWSAccessKey    "deadbeef"
+                        :AWSSecretAccessKey "cafebabe"})
+```
+
+Whilst testing, you may find it useful to route all your requests to the AWS Mechanical Turk Sandbox environment.
+
+```clojure
+(biomass.request/setup {:AWSAccessKey    "deadbeef"
+                        :AWSSecretAccessKey "cafebabe"
+                        :sandbox true})
 ```
 
 # Usage
