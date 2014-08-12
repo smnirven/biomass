@@ -18,9 +18,9 @@
    :abandoned_rate "00000000000000000070" :return_rate "000000000000000000E0"
    :rejection_rate  "000000000000000000S0" :hits_approved "00000000000000000040"
    :adult "00000000000000000060" :country "00000000000000000071"
-   :master "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
-   :categorization_masters "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
-   :photo_moderation_masters "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"})
+   :master (if sandboxed? "2ARFPLSP75KLA8M8DH1HTEQVJT3SY6" "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH")
+   :categorization_masters (if sandboxed? "2F1KVCNHMVHV8E9PBUB2A4J79LU20F" "2NDP2L92HECWY8NS8H3CK0CP5L9GHO")
+   :photo_moderation_masters (if sandboxed? "2TGBB6BFMFFOM08IBMAFGGESC1UWJX" "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG")})
 
 (defonce request-params
   {:type :QualificationTypeId
@@ -64,7 +64,7 @@
 
 (defn- request-params-populate
   [{:keys [qualification-type-id comparator value required-to-preview]
-    :or   [required-to-preview true] :as params}]
+    :or   {required-to-preview true} :as params}]
   (let [base-request {(:type request-params) (get type-ids qualification-type-id)
                       (:preview request-params) required-to-preview
                       (:comparator request-params) (get comparators comparator)}]
