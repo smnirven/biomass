@@ -81,12 +81,4 @@
 
 (defn build
   [& qualifications]
-  (let [no (+ (count qualifications) 1)]
-    (loop [i 1
-           qualification (first qualifications)
-           final {}]
-      (if (< i no)
-        (recur (+ i 1)
-               (rest qualifications)
-               (merge final (request-params-build i qualification)))
-        final))))
+  (reduce merge {} (map-indexed request-params-build qualifications)))
