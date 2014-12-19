@@ -9,9 +9,9 @@
    :worker-id ($x:text? "WorkerId" doc)
    :hit-id ($x:text? "HITId" doc)
    :assignment-status ($x:text? "AssignmentStatus" doc)
-   :auto-approval-time (util/nil-or-datetime {:s ($x:text? "AutoApprovalTime" doc)})
-   :accept-time (util/nil-or-datetime {:s ($x:text? "AcceptTime" doc)})
-   :submit-time (util/nil-or-datetime {:s ($x:text? "SubmitTime" doc)})
+   :auto-approval-time (util/nil-or-datetime ($x:text? "AutoApprovalTime" doc))
+   :accept-time (util/nil-or-datetime ($x:text? "AcceptTime" doc))
+   :submit-time (util/nil-or-datetime ($x:text? "SubmitTime" doc))
    :answer ($x:text? "Answer" doc)}) ;;TODO: WTF should I do with the
 ;;answer XML?
 

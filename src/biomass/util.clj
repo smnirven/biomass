@@ -12,7 +12,7 @@
     (Double/parseDouble s)))
 
 (defn nil-or-datetime
-  [{:keys [s time-format] :or {time-format :date-time-no-ms}}]
+  [s & {:keys [time-format] :or {time-format :date-time-no-ms}}]
   (when (seq s)
     (tf/parse (tf/formatters time-format) s)))
 

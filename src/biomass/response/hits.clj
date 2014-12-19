@@ -9,7 +9,7 @@
    :hit-type-id ($x:text? "HITTypeId" doc)
    :hit-group-id ($x:text? "HITGroupId" doc)
    :hit-layout-id ($x:text? "HITLayoutId" doc)
-   :creation-time (util/nil-or-datetime {:s ($x:text? "CreationTime" doc)})
+   :creation-time (util/nil-or-datetime ($x:text? "CreationTime" doc))
    :title ($x:text? "Title" doc)
    :description ($x:text? "Description" doc)
    :keywords ($x:text? "Keywords" doc)
@@ -20,7 +20,7 @@
             :formatted-price ($x:text? "Reward/FormattedPrice" doc)}
    :auto-approval-delay-in-seconds (util/nil-or-integer
                                     ($x:text? "AutoApprovalDelayInSeconds" doc))
-   :expiration (util/nil-or-datetime {:s ($x:text? "Expiration" doc)})
+   :expiration (util/nil-or-datetime ($x:text? "Expiration" doc))
    :assignment-duration-in-seconds (util/nil-or-integer
                                     ($x:text? "AssignmentDurationInSeconds" doc))
    :requester-annotation ($x:text? "RequesterAnnotation" doc)
