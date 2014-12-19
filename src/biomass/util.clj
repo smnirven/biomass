@@ -11,11 +11,10 @@
   (when (seq s)
     (Double/parseDouble s)))
 
-;;TODO: allow passing of formatter type, with default
 (defn nil-or-datetime
-  [s]
+  [s & time-format]
   (when (seq s)
-    (tf/parse (tf/formatters :date-time-no-ms) s)))
+    (tf/parse (tf/formatters (or time-format :date-time-no-ms)) s)))
 
 (defn nil-or-boolean
   [s]
