@@ -42,8 +42,7 @@
   (send-and-parse "SearchHITs" {}))
 
 (defn get-hits-for-qualification-type
-  [{:keys [qualification-type-id page-size page-number]}]
-  ;;TODO: defaults for optional page-size and page-number params
+  [{:keys [qualification-type-id page-size page-number] :or {page-size 10 page-number 0}}]
   (send-request {:Operation "GetHITsForQualificationType"
                  :PageSize page-size
                  :PageNumber page-number}))
