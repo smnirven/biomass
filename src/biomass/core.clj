@@ -3,4 +3,4 @@
 
 (defn get-account-balance
   []
-  (send-request {:Operation "GetAccountBalance"}))
+  (send-request "GetAccountBalance" {}))

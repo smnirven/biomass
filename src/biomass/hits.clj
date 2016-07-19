@@ -49,18 +49,20 @@
                  :PageNumber page-number}))
 
 (defn register-hit-type
-  [{:keys [title description reward-amount reward-currency assignment-duration]} qualification-requirements]
-  {:pre [(string? title) (not (empty? title))
+  ([params]
+   (register-hit-type params nil))
+  ([{:keys [title description reward-amount reward-currency assignment-duration]} qualification-requirements]
+   {:pre [(string? title) (not (empty? title))
          (string? description) (not (empty? description))
          (float? reward-amount)
          (string? reward-currency)
          (integer? assignment-duration)]}
-  (let [params (merge {:Title title
+   (let [params (merge {:Title title
                        :Description description
                        :Reward.1.Amount reward-amount
                        :Reward.1.CurrencyCode reward-currency
                        :AssignmentDurationInSeconds assignment-duration} qualification-requirements)]
-    (send-and-parse "RegisterHITType" params)))
+    (send-and-parse "RegisterHITType" params))))
 
 (defn create-hit
   [{:keys [hit-type-id] :as params}]

@@ -17,7 +17,6 @@
 (def aws-secret-access-key (ref nil))
 (def base-url (ref nil))
 (def sandbox-mode (ref nil))
-(def sandboxed? @sandbox-mode)
 
 (defn setup
   [{:keys [AWSAccessKey AWSSecretAccessKey sandbox] :or {sandbox false}}]
@@ -25,7 +24,7 @@
    (ref-set aws-access-key AWSAccessKey)
    (ref-set aws-secret-access-key AWSSecretAccessKey)
    (ref-set sandbox-mode sandbox)
-   (ref-set base-url (if sandboxed? $SANDBOX_BASE_URL $PRODUCTION_BASE_URL))))
+   (ref-set base-url (if @sandbox-mode $SANDBOX_BASE_URL $PRODUCTION_BASE_URL))))
 
 (defn gen-aws-signature
   "Generates an RFC 2104 compliant HMAC for AWS authentication as
