@@ -13,7 +13,7 @@
    :exists "Exists" :does-not-exist "DoesNotExist"
    :in "In" :not-in "NotIn"})
 
-(defonce type-ids
+(defn type-ids []
   {:approval_rate "000000000000000000L0" :hits_approved "00000000000000000040"
    :adult "00000000000000000060" :country "00000000000000000071"
    :master (if @sandbox-mode "2ARFPLSP75KLA8M8DH1HTEQVJT3SY6" "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH")})
@@ -28,8 +28,7 @@
 (defonce request-params-schema
   (let [base {(:type request-params) s/Str
               (:comparator request-params) s/Str
-              (:i-value request-params) s/Int
-              (:preview request-params) s/Bool}]
+              (s/optional-key (:preview request-params)) s/Bool}]
 
     {:country (assoc base
                 (:country request-params) s/Str
@@ -39,9 +38,9 @@
               (:i-value request-params) (s/enum 1 0)
               (:comparator request-params) (s/enum (:eql comparators)))
 
-     :masters (assoc base (:i-value request-params) s/Int)
+     :master base
 
-     :default base}))
+     :default (assoc base (:i-value request-params) s/Int)}))
 
 (defn- request-params-convert
   [qr-no params]
@@ -52,19 +51,21 @@
             params)))
 
 (defn- request-params-validate
-  [{:keys [qualification-type-id] :as params}]
+  [{:keys [qualification-type-id base-request]}]
   (let [type (or (get request-params-schema qualification-type-id) (get request-params-schema :default))]
-    (s/validate type params)))
+    (s/validate type base-request)))
 
 (defn- request-params-populate
-  [{:keys [qualification-type-id comparator value required-to-preview]
+  [{:keys [qualification-type-id comparator value required-to-preview country]
     :or   {required-to-preview true} :as params}]
-  (let [base-request {(:type request-params) (get type-ids qualification-type-id)
+  (let [base-request {(:type request-params) (get (type-ids) qualification-type-id)
                       (:preview request-params) required-to-preview
-                      (:comparator request-params) (get comparators comparator)}]
-    (if (= type :country)
-      (assoc base-request (:country request-params) value)
-      (assoc base-request (:i-value request-params) value))))
+                      (:comparator request-params) (get comparators comparator)}
+        updated-request (cond
+                          (= qualification-type-id :country) (assoc base-request (:country request-params) country)
+                          (not= qualification-type-id :master) (assoc base-request (:i-value request-params) value)
+                          :else base-request)]
+    {:qualification-type-id qualification-type-id :base-request updated-request}))
 
 (defn- request-params-build
   [qr-no params]
