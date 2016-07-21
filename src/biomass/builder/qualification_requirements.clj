@@ -31,7 +31,7 @@
               (s/optional-key (:preview request-params)) s/Bool}]
 
     {:country (assoc base
-                (:country request-params) s/Str
+                (:country request-params) (s/if sequential? [s/Str] s/Str)
                 (:comparator request-params) (s/enum (:eql comparators) (:not comparators) (:in comparators) (:not-in comparators)))
 
      :adult (assoc base
@@ -40,7 +40,7 @@
 
      :master base
 
-     :default (assoc base (:i-value request-params) s/Int)}))
+     :default (assoc base (:i-value request-params) (s/if sequential? [s/Int] s/Int))}))
 
 (defn- request-params-convert
   [qr-no params]
@@ -50,12 +50,12 @@
             {}
             params)))
 
-(defn- request-params-validate
+(defn- ^{:testable true} request-params-validate
   [{:keys [qualification-type-id base-request]}]
   (let [type (or (get request-params-schema qualification-type-id) (get request-params-schema :default))]
     (s/validate type base-request)))
 
-(defn- request-params-populate
+(defn- ^{:testable true} request-params-populate
   [{:keys [qualification-type-id comparator value required-to-preview country]
     :or   {required-to-preview true} :as params}]
   (let [base-request {(:type request-params) (get (type-ids) qualification-type-id)
@@ -67,11 +67,37 @@
                           :else base-request)]
     {:qualification-type-id qualification-type-id :base-request updated-request}))
 
+(defn- ^{:testable true} convert-multivalued-integers
+  [base-request]
+  (let [updated-request (if (sequential? (:IntegerValue base-request))
+                          (merge (dissoc base-request :IntegerValue)
+                                 (reduce (fn [vals [i v]]
+                                           (assoc vals (keyword (str "IntegerValue" "." i)) v))
+                                         {}
+                                         (map-indexed vector (:IntegerValue base-request))))
+                          base-request)]
+    updated-request))
+
+
+(defn- ^{:testable true} convert-multivalued-locales
+  [base-request]
+  (let [updated-request (if (sequential? (:LocaleValue.Country base-request))
+                          (merge (dissoc base-request :LocaleValue.Country)
+                                 (reduce (fn [vals [i v]]
+                                           (assoc vals (keyword (str "LocaleValue" "." i ".Country")) v))
+                                         {}
+                                         (map-indexed vector (:LocaleValue.Country base-request))))
+                          base-request)]
+    updated-request))
+
+
 (defn- request-params-build
   [qr-no params]
   (->> params
        request-params-populate
        request-params-validate
+       convert-multivalued-integers
+       convert-multivalued-locales
        (request-params-convert qr-no)))
 
 (defn build
