@@ -8,7 +8,7 @@
            (javax.crypto.spec SecretKeySpec)))
 
 (defonce $HMAC_ALGORITHM "HmacSHA1")
-(defonce $API_VERSION "2012-03-25")
+(defonce $API_VERSION "2014-08-15")
 (defonce $SERVICE "AWSMechanicalTurkRequester")
 (defonce $SANDBOX_BASE_URL "https://mechanicalturk.sandbox.amazonaws.com/")
 (defonce $PRODUCTION_BASE_URL "https://mechanicalturk.amazonaws.com/")
