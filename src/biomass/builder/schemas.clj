@@ -6,7 +6,7 @@
 
 (defonce schema-Price
   {(s/optional-key :Amount) s/Num
-   (s/optional-key :CurrencyCode) s/Str
+   :CurrencyCode s/Str
    (s/optional-key :FormattedPrice) s/Str})
 
 (defonce schema-Locale
@@ -25,8 +25,7 @@
    :Value s/Str})
 
 (defonce schema-RegisterHITType
-  {:Operation s/Str
-   :Title s/Str
+  {:Title s/Str
    :Description s/Str
    :Reward schema-Price
    :AssignmentDurationInSeconds s/Int
@@ -36,18 +35,16 @@
 
 
 (defonce schema-CreateHIT
-  {:Operation s/Str
-   :HITTypeId s/Str
+  {:HITTypeId s/Str
    (s/optional-key :Question) s/Str
    (s/optional-key :HITLayoutId) s/Str
-   (s/optional-key :HITLayoutParameter) [schema-HITLayoutParameter]
+   (s/optional-key :HITLayoutParameter) (s/if sequential? [schema-HITLayoutParameter] schema-HITLayoutParameter)
    :LifetimeInSeconds s/Int
    (s/optional-key :MaxAssignments) s/Int
    (s/optional-key :AssignmentReviewPolicy) s/Str
    (s/optional-key :HITReviewPolicy) s/Str
    (s/optional-key :RequesterAnnotation) s/Str
-   (s/optional-key :UniqueRequestToken) s/Str}
-)
+   (s/optional-key :UniqueRequestToken) s/Str})
 
 (defonce schema-notification-event-type
   (s/enum "AssignmentAccepted" "AssignmentAbandoned" "AssignmentReturned" "AssignmentSubmitted" "AssignmentRejected" "AssignmentApproved" "HITCreated" "HITExtended" "HITDisposed" "HITReviewable" "HITExpired" "Ping"))
