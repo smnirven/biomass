@@ -3,7 +3,10 @@
   biomass.request
   (:require [ring.util.codec :as codec]
             [clj-time.local :refer [local-now format-local-time]]
-            [clj-http.client :as client])
+            [clj-http.client :as client]
+            [clojure.xml :as xml]
+            [clojure.zip :as zip]
+            [biomass.util :refer [parse-zipped-xml]])
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 
@@ -54,3 +57,17 @@
   [operation params]
   (let [final-params (merge params (get-default-params operation))]
     (client/get @base-url {:query-params final-params})))
+
+(defn send-and-parse
+  [operation params]
+  (let [resp (send-request operation params)]
+    (when (= (:status resp) 200)
+      (prn (:body resp))
+      (->> resp
+           :body
+           .getBytes
+           java.io.ByteArrayInputStream.
+           xml/parse
+           zip/xml-zip
+           first
+           parse-zipped-xml))))
