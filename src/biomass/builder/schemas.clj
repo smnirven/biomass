@@ -99,3 +99,11 @@
   {:HITTypeId s/Str
    :Notification schema-Notification
    (s/optional-key :Active) s/Bool})
+
+(defonce schema-GetAssignmentsForHIT
+  {:HITId s/Str
+   (s/optional-key :AssignmentStatus) (s/enum "Submitted" "Approved" "Rejected")
+   (s/optional-key :SortProperty) s/Str
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
