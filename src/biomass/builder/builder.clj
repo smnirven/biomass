@@ -1,4 +1,8 @@
-(ns biomass.builder.builder)
+(ns ^{:author "shafeeq"
+      :doc "Cointains helper functions to build Mechanical Turk request data-structures"}
+    biomass.builder.builder
+  (:require [schema.core :as s]
+            [biomass.builder.schemas :refer :all]))
 
 (declare convert-vec-params)
 
@@ -27,3 +31,7 @@
                 :else (assoc r (keyword key-prefix) v))))
           {}
           (map-indexed vector values)))
+
+(defn build-qualification-requirement
+  [params]
+  (s/validate schema-QualificationRequirement params))

@@ -53,3 +53,49 @@
   {:Destination s/Str
    :Transport (s/enum "Email" "SQS")
    :EventType (s/if sequential? [schema-notification-event-type] schema-notification-event-type)})
+
+(defonce schema-GetReviewableHITs
+  {(s/optional-key :HITTypeId) s/Str
+   (s/optional-key :Status) s/Str
+   (s/optional-key :SortProperty) s/Str
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce schema-SearchHITs
+  {(s/optional-key :SortProperty) s/Str
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce schema-ExtendHIT
+  {:HITId s/Str
+   (s/optional-key :MaxAssignmentsIncrement) s/Int
+   (s/optional-key :ExpirationIncrementInSeconds) s/Int
+   (s/optional-key :UniqueRequestToken) s/Str})
+
+(defonce schema-GetAssignmentsForHIT
+  {:HITId s/Str
+   (s/optional-key :AssignmentStatus) s/Str
+   (s/optional-key :SortProperty) s/Str
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce schema-GetReviewResultsForHIT
+  {:HITId s/Str
+   (s/optional-key :PolicyLevel) s/Str
+   (s/optional-key :AssignmentId) s/Str
+   (s/optional-key :RetrieveActions) (s/enum "T" "F")
+   (s/optional-key :RetrieveResults) (s/enum "T" "F")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce schema-SetHITAsReviewing
+  {:HITId s/Str
+   (s/optional-key :Revert) s/Bool})
+
+(defonce schema-SetHITTypeNotification
+  {:HITTypeId s/Str
+   :Notification schema-Notification
+   (s/optional-key :Active) s/Bool})
