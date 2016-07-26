@@ -81,4 +81,4 @@
 
 (defn set-hit-type-notification
   [params]
-  (send-and-parse "SetHITTypeNotification" (s/validate schema-SetHITTypeNotification params)))
+  (send-and-parse "SetHITTypeNotification" (convert-params (s/validate schema-SetHITTypeNotification params))))
