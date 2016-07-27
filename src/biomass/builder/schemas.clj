@@ -54,6 +54,7 @@
 (defonce Notification
   {:Destination s/Str
    :Transport (s/enum "Email" "SQS")
+   :Version s/Str
    :EventType (maybe-sequential notification-event-type)})
 
 (defonce GetReviewableHITs
@@ -210,3 +211,35 @@
 (defonce UnblockWorker
   {:WorkerId s/Str
    :Reason s/Str})
+
+(defonce GetBonusPayments
+  {(s/optional-key :HITId) s/Str
+   (s/optional-key :AssignmentId) s/Str
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce GetFileUploadURL
+  {:AssignmentId s/Str
+   :QuestionIdentifier s/Str})
+
+(defonce GetRequesterStatistic
+  {:Statistic (maybe-sequential s/Str)
+   :TimePeriod (s/enum "OneDay" "SevenDays" "ThirtyDays" "LifeToDate")
+   (s/optional-key :Count) s/Int})
+
+(defonce GetRequesterWorkerStatistic
+  {:Statistic (maybe-sequential s/Str)
+   :WorkerId s/Str
+   :TimePeriod (s/enum "OneDay" "SevenDays" "ThirtyDays" "LifeToDate")
+   (s/optional-key :Count) s/Int})
+
+(defonce GrantBonus
+  {:WorkerId s/Str
+   :AssignmentId s/Str
+   :BonusAmount Price
+   :Reason s/Str
+   (s/optional-key :UniqueRequestToken) s/Str})
+
+(defonce SendTestEventNotification
+  {:Notification Notification
+   :TestEventType notification-event-type})
