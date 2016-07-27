@@ -1,19 +1,11 @@
 (ns biomass.assignments
-  (:require [biomass.request :refer :all]
-            [biomass.response.assignments :refer :all]
+  (:require [biomass.request :refer [send-and-parse]]
             [biomass.util :as util]
-            [biomass.builder.schemas :refer :all]
-            [schema.core :as s]))
-
-(defn- send-and-parse
-  [operation params]
-  (let [resp (send-request operation params)]
-    (when (= (:status resp) 200)
-      (parse operation (:body resp)))))
+            [biomass.builder.schemas :as schemas]))
 
 (defn get-assignments-for-hit
   [params]
-  (send-and-parse "GetAssignmentsForHIT" (s/validate schema-GetAssignmentsForHIT params)))
+  (send-and-parse "GetAssignmentsForHIT" (s/validate schemas/GetAssignmentsForHIT params)))
 
 (defn get-assignment
   [assignment-id]

@@ -28,13 +28,13 @@
                            (keyword (str "HITLayoutParameter." %1 ".Value")) (second %2))]
     (reduce merge (map convert (range) params))))
 
-(defn parse-zipped-xml
-  [struct]
-  (cond
-    (map? struct) (assoc {} (:tag struct) (parse-zipped-xml (:content struct)))
-    (sequential? struct) (let [mapped-content (map parse-zipped-xml struct)
-                               content (if (= 1 (count mapped-content))
-                                         (first mapped-content)
-                                         (reduce merge {} mapped-content))]
-                           content)
-    :else struct))
+;; from https://github.com/staples-sparx/kits/blob/master/src/clojure/kits/map.clj
+(defn map-keys
+  "Apply a function on all keys of a map and return the corresponding map (all
+   values untouched)"
+  [f m]
+  (when m
+    (persistent! (reduce-kv (fn [out-m k v]
+                              (assoc! out-m (f k) v))
+                            (transient (empty m))
+                            m))))

@@ -1,12 +1,11 @@
 (ns ^{:author "smnirven"
       :doc "Contains methods needed for all manner of requests to MTurk"}
-  biomass.request
+    biomass.request
   (:require [ring.util.codec :as codec]
             [clj-time.local :refer [local-now format-local-time]]
             [clj-http.client :as client]
             [clojure.xml :as xml]
-            [clojure.zip :as zip]
-            [biomass.util :refer [parse-zipped-xml]])
+            [clojure.zip :as zip])
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 
@@ -58,16 +57,29 @@
   (let [final-params (merge params (get-default-params operation))]
     (client/get @base-url {:query-params final-params})))
 
+(defn parse-zipped-xml
+  [struct]
+  (cond
+    (map? struct)
+    {(:tag struct) (parse-zipped-xml (:content struct))}
+
+    (sequential? struct)
+    (map parse-zipped-xml struct)
+
+    :else
+    struct))
+
 (defn send-and-parse
   [operation params]
-  (let [resp (send-request operation params)]
-    (when (= (:status resp) 200)
-      (prn (:body resp))
-      (->> resp
-           :body
-           .getBytes
-           java.io.ByteArrayInputStream.
-           xml/parse
-           zip/xml-zip
-           first
-           parse-zipped-xml))))
+  (let [response (send-request operation params)]
+    (if (= (:status response) 200)
+      {:status :success
+       :response (let [response-stream (->> response :body .getBytes java.io.ByteArrayInputStream.)]
+                   (->> response-stream
+                        xml/parse
+                        zip/xml-zip
+                        first
+                        parse-zipped-xml))}
+      {:status :error
+       :status-code (:status response)
+       :response (:body response)})))
