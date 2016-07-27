@@ -7,8 +7,8 @@
             [schema.core :as s]))
 
 (defn get-hit
-  [hit-id]
-  (send-and-parse "GetHIT" {:HITId hit-id}))
+  [params]
+  (send-and-parse "GetHIT" (s/validate schemas/HITIdOnly params)))
 
 (defn get-reviewable-hits
   ([]
@@ -35,25 +35,24 @@
   (send-and-parse "CreateHIT" (builder/->amazon-format (s/validate schemas/CreateHIT params))))
 
 (defn disable-hit
-  [hit-id]
-  (send-and-parse "DisableHIT" {:HITId hit-id}))
+  [params]
+  (send-and-parse "DisableHIT" (s/validate schemas/HITIdOnly params)))
 
 (defn dispose-hit
-  [hit-id]
-  (send-and-parse "DisposeHIT" {:HITId hit-id}))
+  [params]
+  (send-and-parse "DisposeHIT" (s/validate schemas/HITIdOnly params)))
 
 (defn change-hit-type-of-hit
-  [hit-id hit-type-id]
-  (send-and-parse "ChangeHITTypeOfHIT" {:HITId hit-id
-                                        :HITTypeId hit-type-id}))
+  [params]
+  (send-and-parse "ChangeHITTypeOfHIT" (s/validate schemas/ChangeHITTypeOfHIT params)))
 
 (defn extend-hit
   [params]
   (send-and-parse "ExtendHIT" (s/validate schemas/ExtendHIT params)))
 
 (defn force-expire-hit
-  [hit-id]
-  (send-and-parse "ForceExpireHIT" {:HITId hit-id}))
+  [params]
+  (send-and-parse "ForceExpireHIT" (s/validate schemas/HITIdOnly params)))
 
 (defn get-assignments-for-hits
   [params]

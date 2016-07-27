@@ -243,3 +243,25 @@
 (defonce SendTestEventNotification
   {:Notification Notification
    :TestEventType notification-event-type})
+
+(defonce GetAssignment
+  {:AssignmentId s/Str})
+
+(defonce ApproveAssignment
+  {:ApproveAssignment s/Str
+   (s/optional-key :RequesterFeedback) s/Str})
+
+(defonce ApproveRejectedAssignment
+  {:ApproveAssignment s/Str
+   (s/optional-key :RequesterFeedback) s/Str})
+
+(defonce RejectAssignment
+  {:ApproveAssignment s/Str
+   (s/optional-key :RequesterFeedback) s/Str})
+
+(defonce HITIdOnly
+  {:HITId s/Str})
+
+(defonce ChangeHITTypeOfHIT
+  {:HITId s/Str
+   :HITTypeId s/Str})

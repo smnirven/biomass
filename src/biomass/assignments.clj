@@ -8,27 +8,17 @@
   (send-and-parse "GetAssignmentsForHIT" (s/validate schemas/GetAssignmentsForHIT params)))
 
 (defn get-assignment
-  [assignment-id]
-  {:pre [(string? assignment-id) (not (empty? assignment-id))]}
-  (send-and-parse "GetAssignment" {:AssignmentId assignment-id}))
+  [params]
+  (send-and-parse "GetAssignment" (s/validate schemas/GetAssignment params)))
 
 (defn approve-assignment
-  [assignment-id]
-  {:pre [(string? assignment-id) (not (empty? assignment-id))]}
-  (send-and-parse "ApproveAssignment" {:AssignmentId assignment-id}))
+  [params]
+  (send-and-parse "ApproveAssignment" (s/validate schemas/ApproveAssignment params)))
 
 (defn approve-rejected-assignment
-  [assignment-id]
-  {:pre [(string? assignment-id) (not (empty? assignment-id))]}
-  (send-and-parse "ApproveRejectedAssignment" {:AssignmentId assignment-id}))
+  [params]
+  (send-and-parse "ApproveRejectedAssignment" (s/validate schemas/ApproveRejectedAssignment params)))
 
 (defn reject-assignment
-  ([assignment-id] (reject-assignment assignment-id {}))
-  ([assignment-id {:keys [requester-feedback]}]
-     {:pre [(string? assignment-id) (not (empty? assignment-id))]}
-     (let [args {:AssignmentId assignment-id}]
-       (if-not (empty? requester-feedback)
-         (send-and-parse "RejectAssignment"
-                         (merge args
-                                {:RequesterFeedback requester-feedback}))
-         (send-and-parse "RejectAssignment" args)))))
+  [params]
+  (send-and-parse "RejectAssignment" (s/validate schemas/RejectAssignment params)))
