@@ -1,7 +1,7 @@
 (ns biomass.assignments
   (:require [biomass.request :refer [send-and-parse]]
-            [biomass.util :as util]
-            [biomass.builder.schemas :as schemas]))
+            [biomass.builder.schemas :as schemas]
+            [schema.core :as s]))
 
 (defn get-assignments-for-hit
   [params]
