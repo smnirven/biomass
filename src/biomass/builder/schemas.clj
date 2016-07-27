@@ -132,3 +132,64 @@
   {:QualificationTypeId s/Str
    (s/optional-key :PageSize) s/Int
    (s/optional-key :PageNumber) s/Int})
+
+(defonce DisposeQualificationType
+  {:QualificationTypeId s/Str})
+
+(defonce GetQualificationsForQualificationType
+  {:QualificationTypeId s/Str
+   (s/optional-key :Status) (s/enum "Granted" "Revoked")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce GetQualificationRequests
+  {(s/optional-key :QualificationTypeId) s/Str
+   (s/optional-key :SortProperty) (s/enum "QualificationTypeId" "SubmitTime")
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int})
+
+(defonce GetQualificationScore
+  {:QualificationTypeId s/Str
+   :SubjectId s/Str})
+
+(defonce GetQualificationType
+  {:QualificationTypeId s/Str})
+
+(defonce GrantQualification
+  {:QualificationRequestId s/Str
+   (s/optional-key :IntegerValue) s/Int})
+
+(defonce RejectQualificationRequest
+  {:QualificationRequestId s/Str
+   (s/optional-key :Reason) s/Str})
+
+(defonce RevokeQualification
+  {:QualificationTypeId s/Str
+   :SubjectId s/Str
+   (s/optional-key :Reason) s/Str})
+
+(defonce SearchQualificationTypes
+  {(s/optional-key :Query) s/Str
+   (s/optional-key :SortProperty) (s/enum "QualificationTypeId" "SubmitTime")
+   (s/optional-key :SortDirection) (s/enum "Ascending" "Descending")
+   (s/optional-key :PageSize) s/Int
+   (s/optional-key :PageNumber) s/Int
+   :MustBeRequestable s/Bool
+   (s/optional-key :MustBeOwnedByCaller) s/Bool})
+
+(defonce UpdateQualificationScore
+  {:QualificationTypeId s/Str
+   :SubjectId s/Str
+   :IntegerValue s/Int})
+
+(defonce UpdateQualificationType
+  {:QualificationTypeId s/Str
+   (s/optional-key :RetryDelayInSeconds) s/Int
+   (s/optional-key :QualificationTypeStatus) (s/enum "Active" "Inactive")
+   (s/optional-key :Description) s/Str
+   (s/optional-key :Test) s/Str ;; Change to qurstionform
+   (s/optional-key :AnswerKey) s/Str ;; Change to answerkey
+   (s/optional-key :TestDurationInSeconds) s/Int
+   (s/optional-key :AutoGranted) s/Bool
+   (s/optional-key :AutoGrantedValue) s/Int})
