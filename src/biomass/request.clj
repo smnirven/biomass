@@ -79,7 +79,8 @@
                         xml/parse
                         zip/xml-zip
                         first
-                        parse-zipped-xml))}
+                        parse-zipped-xml
+                        vector))}
       {:status :error
        :status-code (:status response)
-       :response (:body response)})))
+       :response [(:body response)]})))
