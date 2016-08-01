@@ -19,7 +19,7 @@
   [params]
   (send-and-parse "GetRequesterStatistic" (s/validate schemas/GetRequesterStatistic params)))
 
-(defn get-requester-statistic
+(defn get-requester-worker-statistic
   [params]
   (send-and-parse "GetRequesterWorkerStatistic" (s/validate schemas/GetRequesterWorkerStatistic params)))
 
