@@ -4,14 +4,16 @@
              [biomass.hits :as hits]
              [biomass.workers :as workers]
              [clj-time.core :as time]
-             [biomass.test-helpers :as h]))
-
-
-(def aws-access-key "access-key-here")
-(def aws-secret-key "secret-key-here")
-(def worker-id "sandobox-worker-id-here")
+             [biomass.test-helpers :as h]
+             [nomad :refer [defconfig]]
+             [clojure.java.io :as io]))
 
 (defn setup-creds [f]
+  (defconfig test-config (io/file "config/biomass-config.edn"))
+  (def aws-access-key (get (test-config) :aws-access-key))
+  (def aws-secret-key (get (test-config) :aws-secret-key))
+  (def worker-id (get (test-config) :worker-id))
+
   (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
   (f))
 

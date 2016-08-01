@@ -12,7 +12,7 @@
                                                 commons-codec]] ;; only this because ring-codec is behind
                  [clj-time "0.12.0"]
                  [prismatic/schema "1.1.3"]
-                 [com.github.kyleburton/clj-xpath "1.4.5"]]
+                 [jarohen/nomad "0.7.2"]]
   :plugins [[cider/cider-nrepl "0.12.0"]]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
                    :resource-paths ["test-resources"]

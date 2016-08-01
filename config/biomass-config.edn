@@ -1,0 +1,3 @@
+{:aws-access-key "ACCESS-KEY-HERE"
+ :aws-secret-key "SECRET-KEY-HERE"
+ :worker-id "SANDBOX WORKER ID HERE"}
