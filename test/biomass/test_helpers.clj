@@ -41,6 +41,13 @@
        (map :HITId)
        (map first)))
 
+(defn hit-ids-from-hits-for-qualification-type-response
+  [response]
+  (->> [response]
+       (find-in-response-with-path [:response :GetHITsForQualificationTypeResponse :GetHITsForQualificationTypeResult :HIT :HITId])
+       (map :HITId)
+       (map first)))
+
 (defn hit-id-from-create-hit-response
   [response]
   (->> [response]
@@ -53,6 +60,29 @@
   [response]
   (->> [response]
        (find-in-response-with-path [:response :DisableHITResponse :DisableHITResult :Request :IsValid])
+       first
+       :IsValid
+       first))
+
+(defn block-worker-validity
+  [response]
+  (->> [response]
+       (find-in-response-with-path [:response :BlockWorkerResponse :BlockWorkerResult :Request :IsValid])
+       first
+       :IsValid
+       first))
+
+(defn worker-ids-from-get-blocked-workers-response
+  [response]
+  (->> [response]
+       (find-in-response-with-path [:response :GetBlockedWorkersResponse :GetBlockedWorkersResult :WorkerBlock :WorkerId])
+       (map :WorkerId)
+       (map first)))
+
+(defn unblock-worker-validity
+  [response]
+  (->> [response]
+       (find-in-response-with-path [:response :UnblockWorkerResponse :UnblockWorkerResult :Request :IsValid])
        first
        :IsValid
        first))
