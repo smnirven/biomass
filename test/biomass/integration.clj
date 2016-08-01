@@ -50,7 +50,7 @@
 
       (def hit-type-id (h/hit-type-id-from-response hittype-response))
       (is (= :success (:status hittype-response)))
-      (is (= "True" (h/register-hittype-request-validity-from-response hittype-response)))))
+      (is (= "True" (h/valid? hittype-response [:response :RegisterHITTypeResponse  :RegisterHITTypeResult :Request :IsValid])))))
 
   (testing "create hit with new hittype"
     (is (not (nil? hit-type-id)))
@@ -61,7 +61,7 @@
                                                 :LifetimeInSeconds 6000})]
       (def hit-id h/hit-id-from-create-hit-response)
       (is (= :success (:status create-hit-response)))
-      (is (= "True" (h/create-hit-request-validity-from-response create-hit-response)))
+      (is (= "True" (h/valid? create-hit-response [:response :CreateHITResponse :HIT :Request :IsValid])))
       (def hit-id (h/hit-id-from-create-hit-response create-hit-response))))
 
   (testing "search hits for the new hit"
@@ -75,13 +75,13 @@
 
   (testing "disable created hit"
     (let [disable-hit-response (hits/disable-hit {:HITId hit-id})]
-      (is (= "True" (h/disable-hit-validity-from-response disable-hit-response))))))
+      (is (= "True" (h/valid? disable-hit-response [:response :DisableHITResponse :DisableHITResult :Request :IsValid]))))))
 
 (deftest blocking-workers
   (testing "block worker"
     (let [block-worker-response (workers/block-worker {:WorkerId worker-id
                                                        :Reason (str "test block worker" (time/now))})]
-      (is (= "True" (h/block-worker-validity block-worker-response)))))
+      (is (= "True" (h/valid? block-worker-response [:response :BlockWorkerResponse :BlockWorkerResult :Request :IsValid])))))
 
   (testing "search for blocked worker"
     (let[get-blocked-response (workers/get-blocked-workers {})]
@@ -90,4 +90,4 @@
   (testing "unblock worker"
     (let [unblock-worker-response (workers/unblock-worker {:WorkerId worker-id
                                                            :Reason (str "test unblock worker" (time/now))})]
-      (is (= "True" (h/unblock-worker-validity unblock-worker-response))))))
+      (is (= "True" (h/valid? unblock-worker-response [:response :UnblockWorkerResponse :UnblockWorkerResult :Request :IsValid]))))))

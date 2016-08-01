@@ -18,22 +18,6 @@
        :HITTypeId
        first))
 
-(defn register-hittype-request-validity-from-response
-  [response]
-  (->> [response]
-       (find-in-response-with-path [:response :RegisterHITTypeResponse  :RegisterHITTypeResult :Request :IsValid])
-       first
-       :IsValid
-       first))
-
-(defn create-hit-request-validity-from-response
-  [response]
-  (->> [response]
-       (find-in-response-with-path [:response :CreateHITResponse :HIT :Request :IsValid])
-       first
-       :IsValid
-       first))
-
 (defn hit-ids-from-search-hit-response
   [response]
   (->> [response]
@@ -56,22 +40,6 @@
        :HITId
        first))
 
-(defn disable-hit-validity-from-response
-  [response]
-  (->> [response]
-       (find-in-response-with-path [:response :DisableHITResponse :DisableHITResult :Request :IsValid])
-       first
-       :IsValid
-       first))
-
-(defn block-worker-validity
-  [response]
-  (->> [response]
-       (find-in-response-with-path [:response :BlockWorkerResponse :BlockWorkerResult :Request :IsValid])
-       first
-       :IsValid
-       first))
-
 (defn worker-ids-from-get-blocked-workers-response
   [response]
   (->> [response]
@@ -79,10 +47,10 @@
        (map :WorkerId)
        (map first)))
 
-(defn unblock-worker-validity
-  [response]
+(defn valid?
+  [response path]
   (->> [response]
-       (find-in-response-with-path [:response :UnblockWorkerResponse :UnblockWorkerResult :Request :IsValid])
+       (find-in-response-with-path path)
        first
        :IsValid
        first))
