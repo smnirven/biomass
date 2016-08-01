@@ -24,7 +24,7 @@
 
 (defn get-hits-for-qualification-type
   [params]
-  (send-and-parse "GetHITsForQualificationType") (s/validate schemas/GetHITsForQualificationType params))
+  (send-and-parse "GetHITsForQualificationType" (s/validate schemas/GetHITsForQualificationType params)))
 
 (defn register-hit-type
   [params]
