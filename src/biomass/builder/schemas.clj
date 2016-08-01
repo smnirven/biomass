@@ -123,8 +123,8 @@
    (s/optional-key :Keywords) s/Str
    (s/optional-key :RetryDelayInSeconds) s/Int
    :QualificationTypeStatus (s/enum "Active" "Inactive")
-   (s/optional-key :Test) s/Str ;; Change to qurstionform
-   (s/optional-key :AnswerKey) s/Str ;; Change to answerkey
+   (s/optional-key :Test) s/Str
+   (s/optional-key :AnswerKey) s/Str
    (s/optional-key :TestDurationInSeconds) s/Int
    (s/optional-key :AutoGranted) s/Bool
    (s/optional-key :AutoGrantedValue) s/Int})
