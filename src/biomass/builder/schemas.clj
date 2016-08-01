@@ -223,12 +223,12 @@
    :QuestionIdentifier s/Str})
 
 (defonce GetRequesterStatistic
-  {:Statistic (maybe-sequential s/Str)
+  {:Statistic s/Str
    :TimePeriod (s/enum "OneDay" "SevenDays" "ThirtyDays" "LifeToDate")
    (s/optional-key :Count) s/Int})
 
 (defonce GetRequesterWorkerStatistic
-  {:Statistic (maybe-sequential s/Str)
+  {:Statistic s/Str
    :WorkerId s/Str
    :TimePeriod (s/enum "OneDay" "SevenDays" "ThirtyDays" "LifeToDate")
    (s/optional-key :Count) s/Int})
