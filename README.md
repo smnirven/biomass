@@ -1,35 +1,22 @@
 # `biomass`
 
-> Det. Thorn: "Who bought you?"
-
-> Hatcher: "You're bought as soon as they pay you a salary."
-
-> -- *Soylent Green*
-
 Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
 biomass is an implementation of the Amazon Web Services Mechanical Turk REST API in clojure.
 
-#Build Status
-[![Build Status](https://api.travis-ci.org/smnirven/biomass.png)](http://travis-ci.org/smnirven/biomass)
-[![Dependency Status](https://www.versioneye.com/user/projects/52de9f66ec1375d5f7000473/badge.png)](https://www.versioneye.com/user/projects/52de9f66ec1375d5f7000473)
-# Kudos
-Kudos to [Robert Boyd] (https://github.com/rboyd) for the original implementation and inspiration 
-
-# Installation
-
-`biomass` is available as a Maven artifact from [Clojars](http://clojars.org/com.smnirven/biomass)
-
-![Clojars Project](http://clojars.org/com.smnirven/biomass/latest-version.svg)
+#Info
+This branch is currently under development
 
 # Configuration
 
 Before making any requests, be sure to set your AWS credentials
 
 ```clojure
-(biomass.request/set-aws-creds {:AWSAccessKey    "deadbeef"
-                                :AWSSecretAccessKey "cafebabe"})
+(biomass.request/set-aws-creds {:AWSAccessKey    "aws-access-key"
+                                :AWSSecretAccessKey "aws-secret-key"})
 ```
+
+For using the library in sandbox mode, add `:sandbox true` to the map above.
 
 # Usage
 
@@ -38,24 +25,45 @@ Intelligence Tasks" or "HITs".
 
 First create a HIT type and Layout using the [Requester UI](http://docs.aws.amazon.com/AWSMechTurk/latest/RequesterUI/Welcome.html).
 
-Example of creating a HIT:
+See the [API reference](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) for documentation on various operations and their parameters.
 
+All opearations are made in the format ` (operation {params})`, where params is a map from [schemas.](src/biomass/builder/schemas.clj)
+
+Example of creating a HIT:
 ```clojure
-(let [hit-type-id     "VCZVWLDJOTFFJXXQLGXZ"
-      hit-layout-id   "WMYUHDBKJKNGOAMNCNMT"
-      10-minutes      (* 10 60)
-      1-day           (* 24 60 60)]
-  (biomass.hits/create-hit {:hit-type-id hit-type-id
-                            :hit-layout-id hit-layout-id 
-                            :assignment-duration 10-minutes
-                            :lifetime 1-day
-                            :layout-params {:layout-parameter1 "This is a variable defined in the layout"
-                                            :layout-parameter2 "This is another"}})
+(biomass.hits/create-hit {:HITTypeId "3L55M9M850CUHK36475FRIWIOKN9OL"
+                          :HITLayoutId "3H03YZA6SOB7IRBTG3CTKIC1RJF8EW"
+                          :HITLayoutParameter [{:Name "name" :Value "John Doe"}
+                                               {:Name "phone" :Value "000-000-000"}]
+                          :LifetimeInSeconds 6000})
 ```
-[Check out the wiki for more usage examples](https://github.com/smnirven/biomass/wiki)
+
+Note that the nested layout params is also a map from schemas. Multiple paramters are passed in a vector.
+
+Sample respose:
+```clojure
+{:status :success,
+ :response
+ [{:CreateHITResponse
+   ({:OperationRequest ({:RequestId ("cb2cf94e-b2e2-448c-a2c6-41806bd2e046")})}
+    {:HIT
+     ({:Request ({:IsValid ("True")})}
+      {:HITId ("32W3UF2EZO49LXS83EVHVUYUB0PC4T")}
+      {:HITTypeId ("3L55M9M850CUHK36475FRIWIOKN9OL")})})}]}
+```
+
+The XML response is parsed to a data structure similar to above, where the tag name is a key in a map and its value is a list that contains its children nodes. See the API for specifics about various types of response formats and fields.
+
+The `status` is always `:success` if the request returned a status code 200, irrespective of whether the request was valid for the API. Check the `:IsValid` in response to test whether the request was valid at the API level.
+
+For examples of parsing the response, see [test_helpers.clj](test/biomass/test_helpers.clj)
+
+##Testing
+
+Be sure to set your credentials in [config/biomass-config.edn](config/biomass-config.edn) before testing.
 
 ## License
 
-Copyright © 2014 Thomas Steffes
+Copyright © 2016 Shafeeq Kunnakkadan
 
 Distributed under the Eclipse Public License, the same as Clojure.
