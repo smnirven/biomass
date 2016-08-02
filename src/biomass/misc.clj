@@ -1,6 +1,7 @@
 (ns biomass.misc
   (:require [biomass.request :refer [send-and-parse]]
             [biomass.builder.schemas :as schemas]
+            [biomass.builder.builder :as builder]
             [schema.core :as s]))
 
 (defn get-account-balance
@@ -29,4 +30,4 @@
 
 (defn send-test-event-notification
   [params]
-  (send-and-parse "SendTestEventNotification" (s/validate schemas/SendTestEventNotification params)))
+  (send-and-parse "SendTestEventNotification" (builder/->amazon-format (s/validate schemas/SendTestEventNotification params))))
