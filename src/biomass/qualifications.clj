@@ -45,7 +45,7 @@
 
 (defn search-qualification-types
   [params]
-  (send-and-parse "RevokeQualification" (s/validate schemas/RevokeQualification params params)))
+  (send-and-parse "SearchQualificationTypes" (s/validate schemas/SearchQualificationTypes params)))
 
 (defn update-qualification-score
   [params]
