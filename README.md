@@ -7,6 +7,10 @@ biomass is an implementation of the Amazon Web Services Mechanical Turk REST API
 #Info
 This branch is currently under development
 
+#Build Status
+
+[![Build Status](https://travis-ci.org/shafeeq/biomass.svg?branch=operations-with-schema)](https://travis-ci.org/shafeeq/biomass)
+
 # Configuration
 
 Before making any requests, be sure to set your AWS credentials
