@@ -60,7 +60,11 @@ For examples of parsing the response, see [test_helpers.clj](test/biomass/test_h
 
 ##Testing
 
-Be sure to set your credentials in [config/biomass-config.edn](config/biomass-config.edn) before testing.
+Set the `AWS_ACCESS_KEY`, `AWS_SECRET_KEY`, and `SANDBOX_WORKER_ID` environment variables before testing.
+Example:
+```bash
+AWS_ACCESS_KEY="access-key" AWS_SECRET_KEY="secret-key" SANDBOX_WORKER_ID="worker-id" lein test
+```
 
 ## License
 
