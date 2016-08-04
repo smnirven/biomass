@@ -33,7 +33,3 @@
 (defn ->amazon-format [params]
   (->> (->amazon-format* [] params)
        (u/map-keys ->amazon-keywords)))
-
-(defn build-qualification-requirement
-  [params]
-  (schema/validate builder-schemas/QualificationRequirement params))
