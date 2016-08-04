@@ -35,6 +35,18 @@
    (s/optional-key :AutoApprovalDelayInSeconds) s/Int
    (s/optional-key :QualificationRequirement) (maybe-sequential QualificationRequirement)})
 
+(defonce MapEntry
+  {:Key s/Str
+   :Value (maybe-sequential s/Str)})
+
+(defonce Parameter
+  {:Key s/Str
+   (s/optional-key :Value) s/Any
+   (s/optional-key :MapEntry) (maybe-sequential MapEntry)})
+
+(defonce HITReviewPolicy
+  {:PolicyName s/Str
+   :Parameter (maybe-sequential Parameter)})
 
 (defonce CreateHIT
   {:HITTypeId s/Str
@@ -43,8 +55,8 @@
    (s/optional-key :HITLayoutParameter) (maybe-sequential HITLayoutParameter)
    :LifetimeInSeconds s/Int
    (s/optional-key :MaxAssignments) s/Int
-   (s/optional-key :AssignmentReviewPolicy) s/Str
-   (s/optional-key :HITReviewPolicy) s/Str
+   (s/optional-key :AssignmentReviewPolicy) HITReviewPolicy
+   (s/optional-key :HITReviewPolicy) HITReviewPolicy
    (s/optional-key :RequesterAnnotation) s/Str
    (s/optional-key :UniqueRequestToken) s/Str})
 
