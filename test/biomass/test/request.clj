@@ -1,4 +1,4 @@
-(ns biomass.request-test
+(ns biomass.test.request
   (:require [biomass.request :refer :all]
             [clojure.test :refer :all]
             [clojure.xml :as xml]

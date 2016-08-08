@@ -1,4 +1,4 @@
-(ns biomass.test-helpers)
+(ns biomass.test.helpers)
 
 (defn find-in-response-with-path
   [[current-key & path] coll]

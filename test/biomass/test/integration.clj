@@ -1,10 +1,10 @@
-(ns biomass.integration
+(ns biomass.test.integration
   (:require  [clojure.test :refer :all]
              [biomass.request :as r]
              [biomass.hits :as hits]
              [biomass.workers :as workers]
              [clj-time.core :as time]
-             [biomass.test-helpers :as h]
+             [biomass.test.helpers :as h]
              [nomad :refer [defconfig]]
              [clojure.java.io :as io]))
 
