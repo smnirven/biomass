@@ -260,7 +260,7 @@
   {:AssignmentId s/Str})
 
 (defonce ApproveAssignment
-  {:ApproveAssignment s/Str
+  {:AssignmentId s/Str
    (s/optional-key :RequesterFeedback) s/Str})
 
 (defonce ApproveRejectedAssignment
