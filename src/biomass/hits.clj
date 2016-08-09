@@ -54,10 +54,6 @@
   [params]
   (send-and-parse "ForceExpireHIT" (s/validate schemas/HITIdOnly params)))
 
-(defn get-assignments-for-hits
-  [params]
-  (send-and-parse "GetAssignmentsForHIT" (s/validate schemas/GetAssignmentsForHIT params)))
-
 (defn get-review-results-for-hit
   [params]
   (send-and-parse "GetReviewResultsForHIT" (s/validate schemas/GetReviewResultsForHIT params)))
