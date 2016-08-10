@@ -30,7 +30,7 @@ For using the library in sandbox mode, add `:sandbox true` to the map above.
 Amazon Mechanical Turk allocates jobs to humans in the form of "Human
 Intelligence Tasks" or "HITs".
 
-First create a HIT type and Layout using the [Requester UI](http://docs.aws.amazon.com/AWSMechTurk/latest/RequesterUI/Welcome.html).
+See the [Getting Started Guide] (http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMechanicalTurkGettingStartedGuide/Welcome.html) for an overview of Amazon Mechanical Turk for developers.
 
 See the [API reference](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) for documentation on various operations and their parameters.
 
