@@ -1,5 +1,5 @@
-(defproject com.smnirven/biomass "0.5.1"
-  :description "Boss people around. No suit required."
+(defproject nilenso/biomass "0.7.0"
+  :description "Boss people around. No suit required. Clojure wrapper for Amazon Mechanical Turk API"
   :url "https://github.com/smnirven/biomass"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
