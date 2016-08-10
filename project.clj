@@ -1,6 +1,6 @@
 (defproject nilenso/biomass "0.7.0"
   :description "Boss people around. No suit required. Clojure wrapper for Amazon Mechanical Turk API"
-  :url "https://github.com/smnirven/biomass"
+  :url "https://github.com/shafeeq/biomass"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.0.0"
