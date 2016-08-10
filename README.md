@@ -4,12 +4,15 @@ Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
 biomass is an implementation of the Amazon Web Services Mechanical Turk REST API in clojure.
 
-#Info
-This branch is currently under development
+Previously [smnirven/biomass](https://github.com/smnirven/biomass)
 
 #Build Status
 
 [![Build Status](https://travis-ci.org/shafeeq/biomass.svg?branch=operations-with-schema)](https://travis-ci.org/shafeeq/biomass)
+
+#Kudos
+
+Kudos to [Robert Boyd] (https://github.com/rboyd) and [Thomas Steffes] (https://github.com/smnirven) for the previous implementations
 
 # Configuration
 
@@ -60,7 +63,50 @@ The XML response is parsed to a data structure similar to above, where the tag n
 
 The `status` is always `:success` if the request returned a status code 200, irrespective of whether the request was valid for the API. Check the `:IsValid` in response to test whether the request was valid at the API level.
 
-For examples of parsing the response, see [test_helpers.clj](test/biomass/test_helpers.clj)
+## More examples
+
+Creating a HITType with qualification:
+```clojure
+(let [qualification {:QualificationTypeId "00000000000000000071"
+                     :Comparator "In"
+                     :LocaleValue [{:Country "US"}
+                                   {:Country "IN"}
+                                   {:Country "GB"}]
+                     :RequiredToPreview false}]
+
+  (biomass.hits/register-hit-type {:Title (str "TestHITType" (time/now))
+                                   :Description "Test generated hittype"
+                                   :Reward {:Amount 0.50 :CurrencyCode "USD"}
+                                   :AssignmentDurationInSeconds 600
+                                   :Keywords "test"
+                                   :QualificationRequirement qualification}))
+```
+
+Approving all submitted assignments and disposing hits:
+```clojure
+
+(defn get-ids
+  [respone path target-key]
+  (->> [respone]
+       (biomass.test.helpers/find-in-response-with-path path)
+       (map target-key)
+       flatten))
+
+(defn approve-assignments
+  [hit-id]
+  (doseq [assignment (get-ids (biomass.assignments/get-assignments-for-hit {:HITId hit-id :AssignmentStatus "Submitted"})
+                              [:response :GetAssignmentsForHITResponse :GetAssignmentsForHITResult :Assignment :AssignmentId]
+                              :AssignmentId)]
+          (biomass.assignments/approve-assignment {:AssignmentId assignment :RequesterFeedback "Approved"})))
+
+(defn dispose-hits
+  []
+  (doseq [hit (get-ids (hits/get-reviewable-hits)
+                       [:response :GetReviewableHITsResponse :GetReviewableHITsResult :HIT :HITId]
+                       :HITId)]
+    (approve-assignments hit)
+    (hits/dispose-hit {:HITId hit})))
+```
 
 ##Testing
 
