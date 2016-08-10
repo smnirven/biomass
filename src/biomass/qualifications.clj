@@ -15,7 +15,7 @@
   [params]
   (send-and-parse "DisposeQualificationType" (s/validate schemas/DisposeQualificationType params)))
 
-(defn get-qualification-for-qualification-type
+(defn get-qualifications-for-qualification-type
   [params]
   (send-and-parse "GetQualificationsForQualificationType" (s/validate schemas/GetQualificationsForQualificationType params)))
 
