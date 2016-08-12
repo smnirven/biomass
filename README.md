@@ -34,7 +34,7 @@ See the [Getting Started Guide] (http://docs.aws.amazon.com/AWSMechTurk/latest/A
 
 See the [API reference](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) for documentation on various operations and their parameters.
 
-All opearations are made in the format ` (operation {params})`, where params is a map from [schemas.](src/biomass/builder/schemas.clj)
+All operations are made in the format ` (operation {params})`, where params is a map from [schemas.](src/biomass/builder/schemas.clj)
 
 Example of creating a HIT:
 ```clojure
@@ -45,9 +45,9 @@ Example of creating a HIT:
                           :LifetimeInSeconds 6000})
 ```
 
-Note that the nested layout params is also a map from schemas. Multiple paramters are passed in a vector.
+Note that the nested layout params is also a map from schemas. Multiple parameters are passed in a vector.
 
-Sample respose:
+Sample response:
 ```clojure
 {:status :success,
  :response
@@ -86,8 +86,8 @@ Approving all submitted assignments and disposing hits:
 ```clojure
 
 (defn get-ids
-  [respone path target-key]
-  (->> [respone]
+  [response path target-key]
+  (->> [response]
        (biomass.test.helpers/find-in-response-with-path path)
        (map target-key)
        flatten))
