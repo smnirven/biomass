@@ -71,16 +71,19 @@
 
 (defn send-and-parse
   [operation params]
-  (let [response (send-request operation params)]
-    (if (= (:status response) 200)
-      {:status :success
-       :response (let [response-stream (->> response :body .getBytes java.io.ByteArrayInputStream.)]
-                   (->> response-stream
-                        xml/parse
-                        zip/xml-zip
-                        first
-                        parse-zipped-xml
-                        vector))}
-      {:status :error
-       :status-code (:status response)
-       :response [(:body response)]})))
+  (if (some nil? [@aws-access-key @aws-secret-access-key])
+    (throw (RuntimeException. "One or more access keys not set"))
+
+    (let [response (send-request operation params)]
+      (if (= (:status response) 200)
+        {:status :success
+         :response (let [response-stream (->> response :body .getBytes java.io.ByteArrayInputStream.)]
+                     (->> response-stream
+                          xml/parse
+                          zip/xml-zip
+                          first
+                          parse-zipped-xml
+                          vector))}
+        {:status :error
+         :status-code (:status response)
+         :response [(:body response)]}))))

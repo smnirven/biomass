@@ -14,8 +14,11 @@
   (def aws-secret-key (get (test-config) :aws-secret-key))
   (def worker-id (get (test-config) :worker-id))
 
-  (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
-  (f))
+  (if (some nil? [aws-access-key aws-secret-key worker-id])
+    (throw (RuntimeException. "One or more env variables not set for test"))
+    (do
+      (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
+      (f))))
 
 (use-fixtures :once setup-creds)
 
