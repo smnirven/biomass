@@ -9,16 +9,22 @@
              [clojure.java.io :as io]))
 
 (defn setup-creds [f]
-  (defconfig test-config (io/file "config/biomass-config.edn"))
-  (def aws-access-key (get (test-config) :aws-access-key))
-  (def aws-secret-key (get (test-config) :aws-secret-key))
-  (def worker-id (get (test-config) :worker-id))
+  (let [previous-access-key @biomass.request/aws-access-key
+        previous-secret-key @biomass.request/aws-secret-access-key
+        previous-sandbox-mode @biomass.request/sandbox-mode]
 
-  (if (some nil? [aws-access-key aws-secret-key worker-id])
-    (throw (RuntimeException. "One or more env variables not set for test"))
-    (do
-      (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
-      (f))))
+    (defconfig test-config (io/file "config/test-config.edn"))
+    (def aws-access-key (get (test-config) :aws-access-key))
+    (def aws-secret-key (get (test-config) :aws-secret-key))
+    (def worker-id (get (test-config) :worker-id))
+
+    (if (some nil? [aws-access-key aws-secret-key worker-id])
+      (throw (RuntimeException. "One or more env variables not set for test"))
+      (do
+        (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
+        (f)))
+
+    (r/setup {:AWSAccessKey previous-access-key :AWSSecretAccessKey previous-secret-key :sandbox previous-sandbox-mode})))
 
 (use-fixtures :once setup-creds)
 

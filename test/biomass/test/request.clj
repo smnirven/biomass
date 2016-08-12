@@ -4,6 +4,18 @@
             [clojure.xml :as xml]
             [clojure.zip :as zip]))
 
+(defn setup-creds
+  [f]
+  (let [access-key @aws-access-key
+        secret-key @aws-secret-access-key
+        sandbox @sandbox-mode]
+    (setup {:AWSAccessKey nil :AWSSecretAccessKey nil :sandbox nil})
+    (f)
+    (setup {:AWSAccessKey access-key :AWSSecretAccessKey secret-key :sandbox sandbox})))
+
+(use-fixtures :once setup-creds)
+
+
 (defn process-xml-string
   [xml-string]
   (let [stream (->> xml-string .getBytes java.io.ByteArrayInputStream.)]
@@ -44,3 +56,7 @@
 
   (is (= (parse-zipped-xml (process-xml-string (slurp "test-resources/sample-xml")))
          (read-string (slurp "test-resources/sample-parsed-xml")))))
+
+(deftest test-send-and-parse
+  (testing "Throw exception if not setup"
+    (is (thrown? RuntimeException (send-and-parse "SomeOperation" {:some-key :some-value})))))
