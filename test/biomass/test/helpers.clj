@@ -1,14 +1,5 @@
-(ns biomass.test.helpers)
-
-(defn find-in-response-with-path
-  [[current-key & path] coll]
-  (if path
-    (->> coll
-         (filter #(contains? % current-key))
-         (map current-key)
-         (map (partial find-in-response-with-path path))
-         flatten)
-    (filter #(contains? % current-key) coll)))
+(ns biomass.test.helpers
+  (:require [biomass.util :refer [find-in-response-with-path]]))
 
 (defn hit-type-id-from-response
   [response]

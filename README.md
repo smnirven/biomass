@@ -88,7 +88,7 @@ Approving all submitted assignments and disposing hits:
 (defn get-ids
   [response path target-key]
   (->> [response]
-       (biomass.test.helpers/find-in-response-with-path path)
+       (biomass.util/find-in-response-with-path path)
        (map target-key)
        flatten))
 
@@ -101,11 +101,11 @@ Approving all submitted assignments and disposing hits:
 
 (defn dispose-hits
   []
-  (doseq [hit (get-ids (hits/get-reviewable-hits)
+  (doseq [hit (get-ids (biomass.hits/get-reviewable-hits)
                        [:response :GetReviewableHITsResponse :GetReviewableHITsResult :HIT :HITId]
                        :HITId)]
     (approve-assignments hit)
-    (hits/dispose-hit {:HITId hit})))
+    (biomass.hits/dispose-hit {:HITId hit})))
 ```
 
 ##Testing

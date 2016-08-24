@@ -9,11 +9,11 @@
              [clojure.java.io :as io]))
 
 (defn setup-creds [f]
-  (let [previous-access-key @biomass.request/aws-access-key
-        previous-secret-key @biomass.request/aws-secret-access-key
-        previous-sandbox-mode @biomass.request/sandbox-mode]
+  (let [original-access-key @biomass.request/aws-access-key
+        original-secret-key @biomass.request/aws-secret-access-key
+        original-sandbox-mode @biomass.request/sandbox-mode]
 
-    (defconfig test-config (io/file "config/test-config.edn"))
+    (defconfig test-config (io/file "test/config/test-config.edn"))
     (def aws-access-key (get (test-config) :aws-access-key))
     (def aws-secret-key (get (test-config) :aws-secret-key))
     (def worker-id (get (test-config) :worker-id))
@@ -24,7 +24,7 @@
         (r/setup {:AWSAccessKey aws-access-key :AWSSecretAccessKey aws-secret-key :sandbox true})
         (f)))
 
-    (r/setup {:AWSAccessKey previous-access-key :AWSSecretAccessKey previous-secret-key :sandbox previous-sandbox-mode})))
+    (r/setup {:AWSAccessKey original-access-key :AWSSecretAccessKey original-secret-key :sandbox original-sandbox-mode})))
 
 (use-fixtures :once setup-creds)
 
@@ -63,7 +63,7 @@
 
   (testing "create hit with new hittype"
     (is (not (nil? hit-type-id)))
-    (let [question (slurp "test-resources/sample-question")
+    (let [question (slurp "test/fixtures/sample-question")
 
           create-hit-response (hits/create-hit {:HITTypeId hit-type-id
                                                 :Question question

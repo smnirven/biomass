@@ -10,3 +10,13 @@
                               (assoc! out-m (f k) v))
                             (transient (empty m))
                             m))))
+
+(defn find-in-response-with-path
+  [[current-key & path] coll]
+  (if path
+    (->> coll
+         (filter #(contains? % current-key))
+         (map current-key)
+         (map (partial find-in-response-with-path path))
+         flatten)
+    (filter #(contains? % current-key) coll)))

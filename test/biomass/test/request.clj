@@ -6,12 +6,12 @@
 
 (defn setup-creds
   [f]
-  (let [access-key @aws-access-key
-        secret-key @aws-secret-access-key
-        sandbox @sandbox-mode]
+  (let [original-access-key @aws-access-key
+        original-secret-key @aws-secret-access-key
+        original-sandbox @sandbox-mode]
     (setup {:AWSAccessKey nil :AWSSecretAccessKey nil :sandbox nil})
     (f)
-    (setup {:AWSAccessKey access-key :AWSSecretAccessKey secret-key :sandbox sandbox})))
+    (setup {:AWSAccessKey original-access-key :AWSSecretAccessKey original-secret-key :sandbox original-sandbox})))
 
 (use-fixtures :once setup-creds)
 
@@ -54,8 +54,8 @@
             [{:RequestId ["a7191361-9bfc-47ef-a49d-2ea30f9c6f97"]}]}
            {:BlockWorkerResult [{:Request [{:IsValid ["True"]}]}]}]}))
 
-  (is (= (parse-zipped-xml (process-xml-string (slurp "test-resources/sample-xml")))
-         (read-string (slurp "test-resources/sample-parsed-xml")))))
+  (is (= (parse-zipped-xml (process-xml-string (slurp "test/fixtures/sample-xml")))
+         (read-string (slurp "test/fixtures/sample-parsed-xml")))))
 
 (deftest test-send-and-parse
   (testing "Throw exception if not setup"
