@@ -6,6 +6,12 @@
             [biomass.builder.schemas :as schemas]
             [schema.core :as s]))
 
+(defn validate-qualification-if-exists
+  [params]
+  (when (some? (:QualificationRequirement params))
+    (schemas/validate-qualification-requirement (:QualificationRequirement params)))
+  params)
+
 (defn get-hit
   [params]
   (send-and-parse "GetHIT" (s/validate schemas/HITIdOnly params)))
@@ -28,11 +34,13 @@
 
 (defn register-hit-type
   [params]
-  (send-and-parse "RegisterHITType" (builder/->amazon-format (s/validate schemas/RegisterHITType params))))
+  (send-and-parse "RegisterHITType" (builder/->amazon-format (s/validate schemas/RegisterHITType
+                                                                         (validate-qualification-if-exists params)))))
 
 (defn create-hit
   [params]
-  (send-and-parse "CreateHIT" (builder/->amazon-format (s/validate schemas/CreateHIT params))))
+  (send-and-parse "CreateHIT" (builder/->amazon-format (s/validate schemas/CreateHIT
+                                                                   (validate-qualification-if-exists params)))))
 
 (defn disable-hit
   [params]
