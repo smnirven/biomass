@@ -5,7 +5,8 @@
             [clj-time.local :refer [local-now format-local-time]]
             [clj-http.client :as client]
             [clojure.xml :as xml]
-            [clojure.zip :as zip])
+            [clojure.zip :as zip]
+            [biomass.builder.schemas :as schemas])
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 
@@ -87,3 +88,19 @@
         {:status :error
          :status-code (:status response)
          :response [(:body response)]}))))
+
+(def operations-actions-map
+  {:RegisterHITType {:op-string "RegisterHITType"
+                     :schema schemas/RegisterHITType
+                     :validator biomass.hits/validate-qualification-if-exists}
+
+   :GetHIT {:op-string "GetHIT"
+            :schema schemas/HITIdOnly}})
+
+(defn requester
+  [operation params]
+  (let [{:keys [op-string schema validator]} (get operations-actions-map operation)
+        validated-params (schema.core/validate schema (if validator
+                                                        (validator params)
+                                                        params))]
+    (send-and-parse op-string (biomass.builder.builder/->amazon-format validated-params))))
