@@ -11,7 +11,8 @@
             [biomass.hits]
             [biomass.misc]
             [biomass.qualifications]
-            [biomass.workers])
+            [biomass.workers]
+            [biomass.builder.builder])
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 

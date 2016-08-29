@@ -1,12 +1,13 @@
 (ns ^{:author "smnirven"
       :doc "Contains methods for making HITs API requests to MTurk"}
   biomass.hits
-  (:require [biomass.builder.schemas :as schemas]))
+  (:require [biomass.builder.schemas :as schemas]
+            [biomass.qualifications :as qualifications]))
 
 (defn validate-qualification-if-exists
   [params]
   (when (some? (:QualificationRequirement params))
-    (schemas/validate-qualification-requirement (:QualificationRequirement params)))
+    (qualifications/validate-qualification-requirement (:QualificationRequirement params)))
   params)
 
 (def hit-operations
@@ -28,7 +29,7 @@
 
    :CreateHIT {:op-string "CreateHIT"
                :schema schemas/CreateHIT
-               :validator biomass.hits/validate-qualification-if-exists}
+               :validator validate-qualification-if-exists}
 
    :DisableHIT {:op-string "DisableHIT"
                 :schema schemas/HITIdOnly}

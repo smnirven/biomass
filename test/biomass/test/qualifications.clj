@@ -1,6 +1,6 @@
-(ns biomass.test.builder.schemas
+(ns biomass.test.qualifications
   (:require [clojure.test :refer :all]
-            [biomass.builder.schemas :refer :all]))
+            [biomass.qualifications :refer :all]))
 
 (deftest test-validate-qualification-requirement
   (testing "Multiple qualification requirements"
