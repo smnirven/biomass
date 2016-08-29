@@ -6,7 +6,6 @@
             [clj-http.client :as client]
             [clojure.xml :as xml]
             [clojure.zip :as zip]
-            [biomass.builder.schemas :as schemas]
             [biomass.assignments]
             [biomass.hits]
             [biomass.misc]

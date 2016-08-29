@@ -1,15 +1,15 @@
 (ns biomass.workers
-  (:require [biomass.builder.schemas :as schemas]))
+  (:require [biomass.schemas.workers :as workers-schemas]))
 
 (def worker-operations
   {:BlockWorker {:op-string "BlockWorker"
-                 :schema schemas/BlockWorker}
+                 :schema workers-schemas/BlockWorker}
 
    :GetBlockedWorkers {:op-string "GetBlockedWorkers"
-                       :schema schemas/GetBlockedWorkers}
+                       :schema workers-schemas/GetBlockedWorkers}
 
    :NotifyWorkers {:op-string "NotifyWorkers"
-                   :schema schemas/NotifyWorkers}
+                   :schema workers-schemas/NotifyWorkers}
 
    :UnblockWorker {:op-string "UnblockWorker"
-                   :schema schemas/UnblockWorker}})
+                   :schema workers-schemas/UnblockWorker}})

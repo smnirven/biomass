@@ -1,18 +1,18 @@
 (ns biomass.assignments
-  (:require [biomass.builder.schemas :as schemas]))
+  (:require [biomass.schemas.assignments :as assignment-schemas]))
 
 (def assignments-operations
   {:GetAssignmentsForHIT {:op-string "GetAssignmentsForHIT"
-                          :schema schemas/GetAssignmentsForHIT}
+                          :schema assignment-schemas/GetAssignmentsForHIT}
 
    :GetAssignment {:op-string "GetAssignment"
-                   :schema schemas/GetAssignment}
+                   :schema assignment-schemas/GetAssignment}
 
    :ApproveAssignment {:op-string "ApproveAssignment"
-                       :schema schemas/ApproveAssignment}
+                       :schema assignment-schemas/ApproveAssignment}
 
    :ApproveRejectedAssignment {:op-string "ApproveRejectedAssignment"
-                               :schema schemas/ApproveRejectedAssignment}
+                               :schema assignment-schemas/ApproveRejectedAssignment}
 
    :RejectAssignment {:op-string "RejectAssignment"
-                      :schema schemas/RejectAssignment}})
+                      :schema assignment-schemas/RejectAssignment}})

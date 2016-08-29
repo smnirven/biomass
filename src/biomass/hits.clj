@@ -1,7 +1,5 @@
-(ns ^{:author "smnirven"
-      :doc "Contains methods for making HITs API requests to MTurk"}
-  biomass.hits
-  (:require [biomass.builder.schemas :as schemas]
+(ns biomass.hits
+  (:require [biomass.schemas.hits :as hits-schemas]
             [biomass.qualifications :as qualifications]))
 
 (defn validate-qualification-if-exists
@@ -12,45 +10,45 @@
 
 (def hit-operations
   {:GetHIT {:op-string "GetHIT"
-            :schema schemas/HITIdOnly}
+            :schema hits-schemas/HITIdOnly}
 
    :GetReviewableHITs {:op-string "GetReviewableHITs"
-                       :schema schemas/GetReviewableHITs}
+                       :schema hits-schemas/GetReviewableHITs}
 
    :SearchHITs {:op-string "SearchHITs"
-                :schema schemas/SearchHITs}
+                :schema hits-schemas/SearchHITs}
 
    :GetHITsForQualificationType {:op-string "GetHITsForQualificationType"
-                                 :schema schemas/GetHITsForQualificationType}
+                                 :schema hits-schemas/GetHITsForQualificationType}
 
    :RegisterHITType {:op-string "RegisterHITType"
-                     :schema schemas/RegisterHITType
+                     :schema hits-schemas/RegisterHITType
                      :validator validate-qualification-if-exists}
 
    :CreateHIT {:op-string "CreateHIT"
-               :schema schemas/CreateHIT
+               :schema hits-schemas/CreateHIT
                :validator validate-qualification-if-exists}
 
    :DisableHIT {:op-string "DisableHIT"
-                :schema schemas/HITIdOnly}
+                :schema hits-schemas/HITIdOnly}
 
    :DisposeHIT {:op-string "DisposeHIT"
-                :schema schemas/HITIdOnly}
+                :schema hits-schemas/HITIdOnly}
 
    :ChangeHITTypeOfHIT {:op-string "ChangeHITTypeOfHIT"
-                        :schema schemas/ChangeHITTypeOfHIT}
+                        :schema hits-schemas/ChangeHITTypeOfHIT}
 
    :ExtendHIT {:op-string "ExtendHIT"
-               :schema "schemas/ExtendHIT"}
+               :schema hits-schemas/ExtendHIT}
 
    :ForceExpireHIT {:op-string "ForceExpireHIT"
-                    :schema schemas/HITIdOnly}
+                    :schema hits-schemas/HITIdOnly}
 
    :GetReviewResultsForHIT {:op-string "GetReviewResultsForHIT"
-                            :schema schemas/GetReviewResultsForHIT}
+                            :schema hits-schemas/GetReviewResultsForHIT}
 
    :SetHITAsReviewing {:op-string "SetHITAsReviewing"
-                       :schema schemas/SetHITAsReviewing}
+                       :schema hits-schemas/SetHITAsReviewing}
 
    :SetHITTypeNotification {:op-string "SetHITTypeNotification"
-                            :schema schemas/SetHITTypeNotification}})
+                            :schema hits-schemas/SetHITTypeNotification}})

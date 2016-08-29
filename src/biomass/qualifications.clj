@@ -1,46 +1,46 @@
 (ns biomass.qualifications
-  (:require [biomass.builder.schemas :as schemas]
+  (:require [biomass.schemas.qualifications :as qualification-schemas]
             [schema.core :as s]))
 
 (def qualifications-operations
   {:DisposeQualificationType {:op-string "DisposeQualificationType"
-                              :schema schemas/DisposeQualificationType}
+                              :schema qualification-schemas/DisposeQualificationType}
 
    :GetQualificationRequests {:op-string "GetQualificationRequests"
-                              :schema schemas/GetQualificationRequests}
+                              :schema qualification-schemas/GetQualificationRequests}
 
    :GetQualificationsForQualificationType {:op-string "GetQualificationsForQualificationType"
-                                           :schema schemas/GetQualificationsForQualificationType}
+                                           :schema qualification-schemas/GetQualificationsForQualificationType}
 
    :GetQualificationScore {:op-string "GetQualificationScore"
-                           :schema schemas/GetQualificationScore}
+                           :schema qualification-schemas/GetQualificationScore}
 
    :CreateQualificationType {:op-string "CreateQualificationType"
-                             :schema schemas/CreateQualificationType}
+                             :schema qualification-schemas/CreateQualificationType}
 
    :UpdateQualificationType {:op-string "UpdateQualificationType"
-                             :schema schemas/UpdateQualificationType}
+                             :schema qualification-schemas/UpdateQualificationType}
 
    :RevokeQualification {:op-string "RevokeQualification"
-                         :schema schemas/RevokeQualification}
+                         :schema qualification-schemas/RevokeQualification}
 
    :GrantQualification {:op-string "GrantQualification"
-                        :schema schemas/GrantQualification}
+                        :schema qualification-schemas/GrantQualification}
 
    :SearchQualificationTypes {:op-string "SearchQualificationTypes"
-                              :schema schemas/SearchQualificationTypes}
+                              :schema qualification-schemas/SearchQualificationTypes}
 
    :GetQualificationType {:op-string "GetQualificationType"
-                          :schema schemas/GetQualificationType}
+                          :schema qualification-schemas/GetQualificationType}
 
    :RejectQualificationRequest {:op-string "RejectQualificationRequest"
-                                :schema schemas/RejectQualificationRequest}
+                                :schema qualification-schemas/RejectQualificationRequest}
 
    :AssignQualification {:op-string "AssignQualification"
-                         :schema schemas/AssignQualification}
+                         :schema qualification-schemas/AssignQualification}
 
    :UpdateQualificationScore {:op-string "UpdateQualificationScore"
-                              :schema schemas/UpdateQualificationScore}})
+                              :schema qualification-schemas/UpdateQualificationScore}})
 
 (def int-val-comparators (s/enum "LessThan" "LessThanOrEqualTo" "GreaterThan" "GreaterThanOrEqualTo"
                                  "EqualTo" "NotEqualTo" "In" "NotIn"))
@@ -94,7 +94,7 @@
       params
       (throw-with-msg "Unknown error in qualification requirement"))
 
-    (do (s/validate schemas/QualificationRequirement params)
+    (do (s/validate qualification-schemas/QualificationRequirement params)
 
         (when (and (:IntegerValue params) (:LocaleValue params))
           (throw-with-msg "Both IntegerValue and LocaleValue cannot be present at the same time"))

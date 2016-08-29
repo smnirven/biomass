@@ -1,10 +1,8 @@
 (ns ^{:author "shafeeq"
       :doc "Cointains helper functions to build Mechanical Turk request data-structures"}
     biomass.builder.builder
-  (:require [schema.core :as schema]
-            [clojure.string :as s]
-            [biomass.util :as u]
-            [biomass.builder.schemas :as builder-schemas]))
+  (:require [clojure.string :as s]
+            [biomass.util :as u]))
 
 (defn vector->map
   [element-list]

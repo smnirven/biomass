@@ -1,23 +1,23 @@
 (ns biomass.misc
-  (:require [biomass.builder.schemas :as schemas]))
+  (:require [biomass.schemas.misc :as misc-schemas]))
 
 (def misc-operations
   {:GetAccountBalance {:op-string "GetAccountBalance"}
 
    :GetBonusPayments {:op-string "GetBonusPayments"
-                      :schema schemas/GetBonusPayments}
+                      :schema misc-schemas/GetBonusPayments}
 
    :GetFileUploadURL {:op-string "GetFileUploadURL"
-                      :schema schemas/GetFileUploadURL}
+                      :schema misc-schemas/GetFileUploadURL}
 
    :GetRequesterStatistic {:op-string "GetRequesterStatistic"
-                           :schema schemas/GetRequesterStatistic}
+                           :schema misc-schemas/GetRequesterStatistic}
 
    :GetRequesterWorkerStatistic {:op-string "GetRequesterWorkerStatistic"
-                                 :schema schemas/GetRequesterWorkerStatistic}
+                                 :schema misc-schemas/GetRequesterWorkerStatistic}
 
    :GrantBonus {:op-string "GrantBonus"
-                :schema schemas/GrantBonus}
+                :schema misc-schemas/GrantBonus}
 
    :SendTestEventNotification {:op-string "SendTestEventNotification"
-                               :schema schemas/SendTestEventNotification}})
+                               :schema misc-schemas/SendTestEventNotification}})
