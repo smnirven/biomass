@@ -1,24 +1,18 @@
 (ns biomass.assignments
-  (:require [biomass.request :refer [send-and-parse]]
-            [biomass.builder.schemas :as schemas]
-            [schema.core :as s]))
+  (:require [biomass.builder.schemas :as schemas]))
 
-(defn get-assignments-for-hit
-  [params]
-  (send-and-parse "GetAssignmentsForHIT" (s/validate schemas/GetAssignmentsForHIT params)))
+(def assignments-operations
+  {:GetAssignmentsForHIT {:op-string "GetAssignmentsForHIT"
+                          :schema schemas/GetAssignmentsForHIT}
 
-(defn get-assignment
-  [params]
-  (send-and-parse "GetAssignment" (s/validate schemas/GetAssignment params)))
+   :GetAssignment {:op-string "GetAssignment"
+                   :schema schemas/GetAssignment}
 
-(defn approve-assignment
-  [params]
-  (send-and-parse "ApproveAssignment" (s/validate schemas/ApproveAssignment params)))
+   :ApproveAssignment {:op-string "ApproveAssignment"
+                       :schema schemas/ApproveAssignment}
 
-(defn approve-rejected-assignment
-  [params]
-  (send-and-parse "ApproveRejectedAssignment" (s/validate schemas/ApproveRejectedAssignment params)))
+   :ApproveRejectedAssignment {:op-string "ApproveRejectedAssignment"
+                               :schema schemas/ApproveRejectedAssignment}
 
-(defn reject-assignment
-  [params]
-  (send-and-parse "RejectAssignment" (s/validate schemas/RejectAssignment params)))
+   :RejectAssignment {:op-string "RejectAssignment"
+                      :schema schemas/RejectAssignment}})

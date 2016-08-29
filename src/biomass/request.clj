@@ -6,7 +6,12 @@
             [clj-http.client :as client]
             [clojure.xml :as xml]
             [clojure.zip :as zip]
-            [biomass.builder.schemas :as schemas])
+            [biomass.builder.schemas :as schemas]
+            [biomass.assignments]
+            [biomass.hits]
+            [biomass.misc]
+            [biomass.qualifications]
+            [biomass.workers])
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 
@@ -90,17 +95,19 @@
          :response [(:body response)]}))))
 
 (def operations-actions-map
-  {:RegisterHITType {:op-string "RegisterHITType"
-                     :schema schemas/RegisterHITType
-                     :validator biomass.hits/validate-qualification-if-exists}
-
-   :GetHIT {:op-string "GetHIT"
-            :schema schemas/HITIdOnly}})
+  (merge biomass.assignments/assignments-operations
+         biomass.hits/hit-operations
+         biomass.misc/misc-operations
+         biomass.qualifications/qualifications-operations
+         biomass.workers/worker-operations))
 
 (defn requester
   [operation params]
   (let [{:keys [op-string schema validator]} (get operations-actions-map operation)
-        validated-params (schema.core/validate schema (if validator
-                                                        (validator params)
-                                                        params))]
-    (send-and-parse op-string (biomass.builder.builder/->amazon-format validated-params))))
+        validated-params (if validator
+                           (validator params)
+                           params)
+        schema-validated-params (if schema
+                                  (schema.core/validate schema validated-params)
+                                  validated-params)]
+    (send-and-parse op-string (biomass.builder.builder/->amazon-format schema-validated-params))))

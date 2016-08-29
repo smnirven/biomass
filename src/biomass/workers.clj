@@ -1,20 +1,15 @@
 (ns biomass.workers
-(:require [biomass.request :refer [send-and-parse]]
-            [biomass.builder.schemas :as schemas]
-            [schema.core :as s]))
+  (:require [biomass.builder.schemas :as schemas]))
 
-(defn block-worker
-  [params]
-  (send-and-parse "BlockWorker" (s/validate schemas/BlockWorker params)))
+(def worker-operations
+  {:BlockWorker {:op-string "BlockWorker"
+                 :schema schemas/BlockWorker}
 
-(defn get-blocked-workers
-  [params]
-  (send-and-parse "GetBlockedWorkers" (s/validate schemas/GetBlockedWorkers params)))
+   :GetBlockedWorkers {:op-string "GetBlockedWorkers"
+                       :schema schemas/GetBlockedWorkers}
 
-(defn notify-workers
-  [params]
-  (send-and-parse "NotifyWorkers" (s/validate schemas/NotifyWorkers params)))
+   :NotifyWorkers {:op-string "NotifyWorkers"
+                   :schema schemas/NotifyWorkers}
 
-(defn unblock-worker
-  [params]
-  (send-and-parse "UnblockWorker" (s/validate schemas/UnblockWorker params)))
+   :UnblockWorker {:op-string "UnblockWorker"
+                   :schema schemas/UnblockWorker}})

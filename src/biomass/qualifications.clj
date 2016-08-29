@@ -1,56 +1,42 @@
 (ns biomass.qualifications
-  (:require [biomass.request :refer [send-and-parse]]
-            [biomass.builder.schemas :as schemas]
-            [schema.core :as s]))
+  (:require [biomass.builder.schemas :as schemas]))
 
-(defn assign-qualification
-  [params]
-  (send-and-parse "AssignQualification" (s/validate schemas/AssignQualification params)))
+(def qualifications-operations
+  {:DisposeQualificationType {:op-string "DisposeQualificationType"
+                              :schema schemas/DisposeQualificationType}
 
-(defn create-qualification-type
-  [params]
-  (send-and-parse "CreateQualificationType" (s/validate schemas/CreateQualificationType params)))
+   :GetQualificationRequests {:op-string "GetQualificationRequests"
+                              :schema schemas/GetQualificationRequests}
 
-(defn dispose-qualification-type
-  [params]
-  (send-and-parse "DisposeQualificationType" (s/validate schemas/DisposeQualificationType params)))
+   :GetQualificationsForQualificationType {:op-string "GetQualificationsForQualificationType"
+                                           :schema schemas/GetQualificationsForQualificationType}
 
-(defn get-qualifications-for-qualification-type
-  [params]
-  (send-and-parse "GetQualificationsForQualificationType" (s/validate schemas/GetQualificationsForQualificationType params)))
+   :GetQualificationScore {:op-string "GetQualificationScore"
+                           :schema schemas/GetQualificationScore}
 
-(defn get-qualification-requests
-  [params]
-  (send-and-parse "GetQualificationRequests" (s/validate schemas/GetQualificationRequests params)))
+   :CreateQualificationType {:op-string "CreateQualificationType"
+                             :schema schemas/CreateQualificationType}
 
-(defn get-qualification-score
-  [params]
-  (send-and-parse "GetQualificationScore" (s/validate schemas/GetQualificationScore params)))
+   :UpdateQualificationType {:op-string "UpdateQualificationType"
+                             :schema schemas/UpdateQualificationType}
 
-(defn get-qualification-type
-  [params]
-  (send-and-parse "GetQualificationType" (s/validate schemas/GetQualificationType params)))
+   :RevokeQualification {:op-string "RevokeQualification"
+                         :schema schemas/RevokeQualification}
 
-(defn grant-qualification
-  [params]
-  (send-and-parse "GrantQualification" (s/validate schemas/GrantQualification params)))
+   :GrantQualification {:op-string "GrantQualification"
+                        :schema schemas/GrantQualification}
 
-(defn reject-qualification-request
-  [params]
-  (send-and-parse "RejectQualificationRequest" (s/validate schemas/RejectQualificationRequest params)))
+   :SearchQualificationTypes {:op-string "SearchQualificationTypes"
+                              :schema schemas/SearchQualificationTypes}
 
-(defn revoke-qualification
-  [params]
-  (send-and-parse "RevokeQualification" (s/validate schemas/RevokeQualification params)))
+   :GetQualificationType {:op-string "GetQualificationType"
+                          :schema schemas/GetQualificationType}
 
-(defn search-qualification-types
-  [params]
-  (send-and-parse "SearchQualificationTypes" (s/validate schemas/SearchQualificationTypes params)))
+   :RejectQualificationRequest {:op-string "RejectQualificationRequest"
+                                :schema schemas/RejectQualificationRequest}
 
-(defn update-qualification-score
-  [params]
-  (send-and-parse "UpdateQualificationScore" (s/validate schemas/UpdateQualificationScore params)))
+   :AssignQualification {:op-string "AssignQualification"
+                         :schema schemas/AssignQualification}
 
-(defn update-qualification-type
-  [params]
-  (send-and-parse "UpdateQualificationType" (s/validate schemas/UpdateQualificationType params)))
+   :UpdateQualificationScore {:op-string "UpdateQualificationScore"
+                              :schema schemas/UpdateQualificationScore}})

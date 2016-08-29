@@ -55,7 +55,7 @@
                                :Keywords "test"
                                :QualificationRequirement qualification}
 
-          hittype-response (hits/register-hit-type register-hit-params)]
+          hittype-response (r/requester :RegisterHITType register-hit-params)]
 
       (def hit-type-id (h/hit-type-id-from-response hittype-response))
       (is (= :success (:status hittype-response)))
@@ -65,9 +65,9 @@
     (is (not (nil? hit-type-id)))
     (let [question (slurp "test/fixtures/sample-question")
 
-          create-hit-response (hits/create-hit {:HITTypeId hit-type-id
-                                                :Question question
-                                                :LifetimeInSeconds 6000})]
+          create-hit-response (r/requester :CreateHIT {:HITTypeId hit-type-id
+                                                       :Question question
+                                                       :LifetimeInSeconds 6000})]
       (def hit-id h/hit-id-from-create-hit-response)
       (is (= :success (:status create-hit-response)))
       (is (= "True" (h/valid? create-hit-response [:response :CreateHITResponse :HIT :Request :IsValid])))
@@ -75,28 +75,28 @@
 
   (testing "search hits for the new hit"
     (is (not (nil? hit-id)))
-    (let [search-response (hits/search-hits {})]
+    (let [search-response (r/requester :SearchHITs {})]
       (is (= hit-id (some #{hit-id} (h/hit-ids-from-search-hit-response search-response))))))
 
   (testing "search for hit with qualification id"
-    (let [search-qual-id-response (hits/get-hits-for-qualification-type {:QualificationTypeId "00000000000000000071"})]
+    (let [search-qual-id-response (r/requester :GetHITsForQualificationType {:QualificationTypeId "00000000000000000071"})]
       (is (= hit-id (some #{hit-id} (h/hit-ids-from-hits-for-qualification-type-response search-qual-id-response))))))
 
   (testing "disable created hit"
-    (let [disable-hit-response (hits/disable-hit {:HITId hit-id})]
+    (let [disable-hit-response (r/requester :DisableHIT {:HITId hit-id})]
       (is (= "True" (h/valid? disable-hit-response [:response :DisableHITResponse :DisableHITResult :Request :IsValid]))))))
 
 (deftest blocking-workers
   (testing "block worker"
-    (let [block-worker-response (workers/block-worker {:WorkerId worker-id
-                                                       :Reason (str "test block worker" (time/now))})]
+    (let [block-worker-response (r/requester :BlockWorker {:WorkerId worker-id
+                                                           :Reason (str "test block worker" (time/now))})]
       (is (= "True" (h/valid? block-worker-response [:response :BlockWorkerResponse :BlockWorkerResult :Request :IsValid])))))
 
   (testing "search for blocked worker"
-    (let[get-blocked-response (workers/get-blocked-workers {})]
+    (let[get-blocked-response (r/requester :GetBlockedWorkers {})]
       (is (= worker-id (some #{worker-id} (h/worker-ids-from-get-blocked-workers-response get-blocked-response))))))
 
   (testing "unblock worker"
-    (let [unblock-worker-response (workers/unblock-worker {:WorkerId worker-id
-                                                           :Reason (str "test unblock worker" (time/now))})]
+    (let [unblock-worker-response (r/requester :UnblockWorker {:WorkerId worker-id
+                                                               :Reason (str "test unblock worker" (time/now))})]
       (is (= "True" (h/valid? unblock-worker-response [:response :UnblockWorkerResponse :UnblockWorkerResult :Request :IsValid]))))))

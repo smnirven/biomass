@@ -1,33 +1,23 @@
 (ns biomass.misc
-  (:require [biomass.request :refer [send-and-parse]]
-            [biomass.builder.schemas :as schemas]
-            [biomass.builder.builder :as builder]
-            [schema.core :as s]))
+  (:require [biomass.builder.schemas :as schemas]))
 
-(defn get-account-balance
-  []
-  (send-and-parse "GetAccountBalance" {}))
+(def misc-operations
+  {:GetAccountBalance {:op-string "GetAccountBalance"}
 
-(defn get-bonus-payments
-  [params]
-  (send-and-parse "GetBonusPayments" (s/validate schemas/GetBonusPayments params)))
+   :GetBonusPayments {:op-string "GetBonusPayments"
+                      :schema schemas/GetBonusPayments}
 
-(defn get-file-upload-url
-  [params]
-  (send-and-parse "GetFileUploadURL" (s/validate schemas/GetFileUploadURL params)))
+   :GetFileUploadURL {:op-string "GetFileUploadURL"
+                      :schema schemas/GetFileUploadURL}
 
-(defn get-requester-statistic
-  [params]
-  (send-and-parse "GetRequesterStatistic" (s/validate schemas/GetRequesterStatistic params)))
+   :GetRequesterStatistic {:op-string "GetRequesterStatistic"
+                           :schema schemas/GetRequesterStatistic}
 
-(defn get-requester-worker-statistic
-  [params]
-  (send-and-parse "GetRequesterWorkerStatistic" (s/validate schemas/GetRequesterWorkerStatistic params)))
+   :GetRequesterWorkerStatistic {:op-string "GetRequesterWorkerStatistic"
+                                 :schema schemas/GetRequesterWorkerStatistic}
 
-(defn grant-bonus
-  [params]
-  (send-and-parse "GrantBonus" (s/validate schemas/GrantBonus params)))
+   :GrantBonus {:op-string "GrantBonus"
+                :schema schemas/GrantBonus}
 
-(defn send-test-event-notification
-  [params]
-  (send-and-parse "SendTestEventNotification" (builder/->amazon-format (s/validate schemas/SendTestEventNotification params))))
+   :SendTestEventNotification {:op-string "SendTestEventNotification"
+                               :schema schemas/SendTestEventNotification}})

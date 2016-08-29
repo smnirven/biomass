@@ -1,10 +1,7 @@
 (ns ^{:author "smnirven"
       :doc "Contains methods for making HITs API requests to MTurk"}
   biomass.hits
-  (:require [biomass.request :refer [send-and-parse]]
-            [biomass.builder.builder :as builder]
-            [biomass.builder.schemas :as schemas]
-            [schema.core :as s]))
+  (:require [biomass.builder.schemas :as schemas]))
 
 (defn validate-qualification-if-exists
   [params]
@@ -12,64 +9,47 @@
     (schemas/validate-qualification-requirement (:QualificationRequirement params)))
   params)
 
-(defn get-hit
-  [params]
-  (send-and-parse "GetHIT" (s/validate schemas/HITIdOnly params)))
+(def hit-operations
+  {:GetHIT {:op-string "GetHIT"
+            :schema schemas/HITIdOnly}
 
-(defn get-reviewable-hits
-  ([]
-   (send-and-parse "GetReviewableHITs" {}))
-  ([params]
-   (send-and-parse "GetReviewableHITs" (builder/->amazon-format (s/validate schemas/GetReviewableHITs params)))))
+   :GetReviewableHITs {:op-string "GetReviewableHITs"
+                       :schema schemas/GetReviewableHITs}
 
-(defn search-hits
-  ([]
-   (send-and-parse "SearchHITs" {}))
-  ([params]
-   (send-and-parse "SearchHITs" (builder/->amazon-format (s/validate schemas/SearchHITs params)))))
+   :SearchHITs {:op-string "SearchHITs"
+                :schema schemas/SearchHITs}
 
-(defn get-hits-for-qualification-type
-  [params]
-  (send-and-parse "GetHITsForQualificationType" (s/validate schemas/GetHITsForQualificationType params)))
+   :GetHITsForQualificationType {:op-string "GetHITsForQualificationType"
+                                 :schema schemas/GetHITsForQualificationType}
 
-(defn register-hit-type
-  [params]
-  (send-and-parse "RegisterHITType" (builder/->amazon-format (s/validate schemas/RegisterHITType
-                                                                         (validate-qualification-if-exists params)))))
+   :RegisterHITType {:op-string "RegisterHITType"
+                     :schema schemas/RegisterHITType
+                     :validator validate-qualification-if-exists}
 
-(defn create-hit
-  [params]
-  (send-and-parse "CreateHIT" (builder/->amazon-format (s/validate schemas/CreateHIT
-                                                                   (validate-qualification-if-exists params)))))
+   :CreateHIT {:op-string "CreateHIT"
+               :schema schemas/CreateHIT
+               :validator biomass.hits/validate-qualification-if-exists}
 
-(defn disable-hit
-  [params]
-  (send-and-parse "DisableHIT" (s/validate schemas/HITIdOnly params)))
+   :DisableHIT {:op-string "DisableHIT"
+                :schema schemas/HITIdOnly}
 
-(defn dispose-hit
-  [params]
-  (send-and-parse "DisposeHIT" (s/validate schemas/HITIdOnly params)))
+   :DisposeHIT {:op-string "DisposeHIT"
+                :schema schemas/HITIdOnly}
 
-(defn change-hit-type-of-hit
-  [params]
-  (send-and-parse "ChangeHITTypeOfHIT" (s/validate schemas/ChangeHITTypeOfHIT params)))
+   :ChangeHITTypeOfHIT {:op-string "ChangeHITTypeOfHIT"
+                        :schema schemas/ChangeHITTypeOfHIT}
 
-(defn extend-hit
-  [params]
-  (send-and-parse "ExtendHIT" (s/validate schemas/ExtendHIT params)))
+   :ExtendHIT {:op-string "ExtendHIT"
+               :schema "schemas/ExtendHIT"}
 
-(defn force-expire-hit
-  [params]
-  (send-and-parse "ForceExpireHIT" (s/validate schemas/HITIdOnly params)))
+   :ForceExpireHIT {:op-string "ForceExpireHIT"
+                    :schema schemas/HITIdOnly}
 
-(defn get-review-results-for-hit
-  [params]
-  (send-and-parse "GetReviewResultsForHIT" (s/validate schemas/GetReviewResultsForHIT params)))
+   :GetReviewResultsForHIT {:op-string "GetReviewResultsForHIT"
+                            :schema schemas/GetReviewResultsForHIT}
 
-(defn set-hit-as-reviewing
-  [params]
-  (send-and-parse "SetHITAsReviewing" (s/validate schemas/SetHITAsReviewing params)))
+   :SetHITAsReviewing {:op-string "SetHITAsReviewing"
+                       :schema schemas/SetHITAsReviewing}
 
-(defn set-hit-type-notification
-  [params]
-  (send-and-parse "SetHITTypeNotification" (builder/->amazon-format (s/validate schemas/SetHITTypeNotification params))))
+   :SetHITTypeNotification {:op-string "SetHITTypeNotification"
+                            :schema schemas/SetHITTypeNotification}})
