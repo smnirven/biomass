@@ -19,11 +19,11 @@ Kudos to [Robert Boyd] (https://github.com/rboyd) and [Thomas Steffes] (https://
 Before making any requests, be sure to set your AWS credentials
 
 ```clojure
-(biomass.request/set-aws-creds {:AWSAccessKey    "aws-access-key"
-                                :AWSSecretAccessKey "aws-secret-key"})
+(biomass.request/setup {:AWSAccessKey    "aws-access-key"
+                        :AWSSecretAccessKey "aws-secret-key"})
 ```
 
-For using the library in sandbox mode, add `:sandbox true` to the map above.
+For using the library in sandbox mode, add `:sandbox true` to the map.
 
 # Usage
 
@@ -34,15 +34,15 @@ See the [Getting Started Guide] (http://docs.aws.amazon.com/AWSMechTurk/latest/A
 
 See the [API reference](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) for documentation on various operations and their parameters.
 
-All operations are made in the format ` (operation {params})`, where params is a map from [schemas.](src/biomass/builder/schemas.clj)
+All operations are made in the format ` (biomass.request/requester :operation {params})`, where `:operation` is the keyword form of an operation defined in the API, and  `params` is a map from [schemas](src/biomass/schemas/).
 
 Example of creating a HIT:
 ```clojure
-(biomass.hits/create-hit {:HITTypeId "3L55M9M850CUHK36475FRIWIOKN9OL"
-                          :HITLayoutId "3H03YZA6SOB7IRBTG3CTKIC1RJF8EW"
-                          :HITLayoutParameter [{:Name "name" :Value "John Doe"}
-                                               {:Name "phone" :Value "000-000-000"}]
-                          :LifetimeInSeconds 6000})
+(biomass.request/requester :CreateHIT {:HITTypeId "3L55M9M850CUHK36475FRIWIOKN9OL"
+                                       :HITLayoutId "3H03YZA6SOB7IRBTG3CTKIC1RJF8EW"
+                                       :HITLayoutParameter [{:Name "name" :Value "John Doe"}
+                                                            {:Name "phone" :Value "000-000-000"}]
+                                       :LifetimeInSeconds 6000})
 ```
 
 Note that the nested layout params is also a map from schemas. Multiple parameters are passed in a vector.
@@ -74,17 +74,16 @@ Creating a HITType with qualification:
                                    {:Country "GB"}]
                      :RequiredToPreview false}]
 
-  (biomass.hits/register-hit-type {:Title (str "TestHITType" (time/now))
-                                   :Description "Test generated hittype"
-                                   :Reward {:Amount 0.50 :CurrencyCode "USD"}
-                                   :AssignmentDurationInSeconds 600
-                                   :Keywords "test"
-                                   :QualificationRequirement qualification}))
+  (biomass.request/requester :RegisterHITType {:Title (str "TestHITType" (time/now))
+                                               :Description "Test generated hittype"
+                                               :Reward {:Amount 0.50 :CurrencyCode "USD"}
+                                               :AssignmentDurationInSeconds 600
+                                               :Keywords "test"
+                                               :QualificationRequirement qualification}))
 ```
 
 Approving all submitted assignments and disposing hits:
 ```clojure
-
 (defn get-ids
   [response path target-key]
   (->> [response]
@@ -94,18 +93,18 @@ Approving all submitted assignments and disposing hits:
 
 (defn approve-assignments
   [hit-id]
-  (doseq [assignment (get-ids (biomass.assignments/get-assignments-for-hit {:HITId hit-id :AssignmentStatus "Submitted"})
+  (doseq [assignment (get-ids (biomass.request/requester :GetAssignmentsForHIT {:HITId hit-id :AssignmentStatus "Submitted"})
                               [:response :GetAssignmentsForHITResponse :GetAssignmentsForHITResult :Assignment :AssignmentId]
                               :AssignmentId)]
-          (biomass.assignments/approve-assignment {:AssignmentId assignment :RequesterFeedback "Approved"})))
+    (biomass.request/requester :ApproveAssignment {:AssignmentId assignment :RequesterFeedback "Approved"})))
 
 (defn dispose-hits
   []
-  (doseq [hit (get-ids (biomass.hits/get-reviewable-hits)
+  (doseq [hit (get-ids (biomass.request/requester :GetReviewableHITs {})
                        [:response :GetReviewableHITsResponse :GetReviewableHITsResult :HIT :HITId]
                        :HITId)]
     (approve-assignments hit)
-    (biomass.hits/dispose-hit {:HITId hit})))
+    (biomass.request/requester :DisposeHIT {:HITId hit})))
 ```
 
 ##Testing
