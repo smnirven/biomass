@@ -8,7 +8,7 @@
     (qualifications/validate-qualification-requirement (:QualificationRequirement params)))
   params)
 
-(def hit-operations
+(def hits-operations
   {:GetHIT {:op-string "GetHIT"
             :schema hits-schemas/HITIdOnly}
 

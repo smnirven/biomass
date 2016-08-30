@@ -96,14 +96,20 @@
 
 (def operations-actions-map
   (merge biomass.assignments/assignments-operations
-         biomass.hits/hit-operations
+         biomass.hits/hits-operations
          biomass.misc/misc-operations
          biomass.qualifications/qualifications-operations
          biomass.workers/worker-operations))
 
+(defn get-or-throw-exception
+  [map key]
+  (if (contains? map key)
+    (get map key)
+    (throw (RuntimeException. (str key " : No such operation defined")))))
+
 (defn requester
   [operation params]
-  (let [{:keys [op-string schema validator]} (get operations-actions-map operation)
+  (let [{:keys [op-string schema validator]} (get-or-throw-exception operations-actions-map operation)
         validated-params (if validator
                            (validator params)
                            params)
