@@ -15,11 +15,11 @@
   (:import (javax.crypto Mac)
            (javax.crypto.spec SecretKeySpec)))
 
-(defonce $HMAC_ALGORITHM "HmacSHA1")
-(defonce $API_VERSION "2014-08-15")
-(defonce $SERVICE "AWSMechanicalTurkRequester")
-(defonce $SANDBOX_BASE_URL "https://mechanicalturk.sandbox.amazonaws.com/")
-(defonce $PRODUCTION_BASE_URL "https://mechanicalturk.amazonaws.com/")
+(defonce hmac-algorithm "HmacSHA1")
+(defonce api-version "2014-08-15")
+(defonce service "AWSMechanicalTurkRequester")
+(defonce sandbox-base-url "https://mechanicalturk.sandbox.amazonaws.com/")
+(defonce production-base-url "https://mechanicalturk.amazonaws.com/")
 
 (def aws-access-key (ref nil))
 (def aws-secret-access-key (ref nil))
@@ -32,16 +32,16 @@
    (ref-set aws-access-key AWSAccessKey)
    (ref-set aws-secret-access-key AWSSecretAccessKey)
    (ref-set sandbox-mode sandbox)
-   (ref-set base-url (if @sandbox-mode $SANDBOX_BASE_URL $PRODUCTION_BASE_URL))))
+   (ref-set base-url (if @sandbox-mode sandbox-base-url production-base-url))))
 
 (defn gen-aws-signature
   "Generates an RFC 2104 compliant HMAC for AWS authentication as
   outlined in the following article:
   http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequests_RequestAuthenticationArticle.html"
   [operation timestamp]
-  (let [data (str $SERVICE operation timestamp)
-        signing-key (SecretKeySpec. (.getBytes @aws-secret-access-key) $HMAC_ALGORITHM)
-        mac (doto (Mac/getInstance $HMAC_ALGORITHM) (.init signing-key))]
+  (let [data (str service operation timestamp)
+        signing-key (SecretKeySpec. (.getBytes @aws-secret-access-key) hmac-algorithm)
+        mac (doto (Mac/getInstance hmac-algorithm) (.init signing-key))]
     (codec/base64-encode (.doFinal mac (.getBytes data)))))
 
 (defn- gen-timestamp
@@ -52,8 +52,8 @@
   [operation]
   (let [ts (gen-timestamp)]
     {:AWSAccessKeyId @aws-access-key
-     :Version $API_VERSION
-     :Service $SERVICE
+     :Version api-version
+     :Service service
      :Timestamp ts
      :Signature (gen-aws-signature operation ts)
      :Operation operation}))
