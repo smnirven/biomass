@@ -1,77 +1,54 @@
-(ns ^{:author "smnirven"
-      :doc "Contains methods for making HITs API requests to MTurk"}
-  biomass.hits
-  (:require [biomass.request :refer :all]
-            [biomass.response.hits :refer :all]
-            [biomass.util :as util]))
+(ns biomass.hits
+  (:require [biomass.schemas.hits :as hits-schemas]
+            [biomass.qualifications :as qualifications]))
 
-(defn- send-and-parse
-  [operation params]
-  (let [resp (send-request operation params)]
-    (when (= (:status resp) 200)
-      (parse operation (:body resp)))))
-
-(defn create-hit-with-type-id
-  [{:keys [hit-type-id hit-layout-id assignment-duration
-           lifetime layout-params] :as params}]
-  {:pre [(string? hit-type-id)
-         (string? hit-layout-id)
-         (integer? assignment-duration)
-         (integer? lifetime)
-         (map? layout-params)]}
-  (send-and-parse "CreateHIT" (merge {:HITTypeId hit-type-id
-                                      :HITLayoutId hit-layout-id
-                                      :AssignmentDurationInSeconds assignment-duration
-                                      :LifetimeInSeconds lifetime}
-                                     (util/restify-layout-params layout-params))))
-
-(defn- create-hit-with-property-values
+(defn validate-qualification-if-exists
   [params]
-  (throw (java.lang.UnsupportedOperationException. "Creating a HIT without hit-type-id is not supported yet")))
+  (when (some? (:QualificationRequirement params))
+    (qualifications/validate-qualification-requirement (:QualificationRequirement params)))
+  params)
 
-(defn get-hit
-  [hit-id]
-  (send-and-parse "GetHIT" {:HITId hit-id}))
+(def hits-operations
+  {:GetHIT {:op-string "GetHIT"
+            :schema hits-schemas/HITIdOnly}
 
-(defn get-reviewable-hits
-  []
-  (send-and-parse "GetReviewableHITs" {}))
+   :GetReviewableHITs {:op-string "GetReviewableHITs"
+                       :schema hits-schemas/GetReviewableHITs}
 
-(defn search-hits
-  []
-  (send-and-parse "SearchHITs" {}))
+   :SearchHITs {:op-string "SearchHITs"
+                :schema hits-schemas/SearchHITs}
 
-(defn get-hits-for-qualification-type
-  [{:keys [qualification-type-id page-size page-number]}]
-  ;;TODO: defaults for optional page-size and page-number params
-  (send-request {:Operation "GetHITsForQualificationType"
-                 :PageSize page-size
-                 :PageNumber page-number}))
+   :GetHITsForQualificationType {:op-string "GetHITsForQualificationType"
+                                 :schema hits-schemas/GetHITsForQualificationType}
 
-(defn register-hit-type
-  [{:keys [title description reward-amount reward-currency assignment-duration]} qualification-requirements]
-  {:pre [(string? title) (not (empty? title))
-         (string? description) (not (empty? description))
-         (float? reward-amount)
-         (string? reward-currency)
-         (integer? assignment-duration)]}
-  (let [params (merge {:Title title
-                       :Description description
-                       :Reward.1.Amount reward-amount
-                       :Reward.1.CurrencyCode reward-currency
-                       :AssignmentDurationInSeconds assignment-duration} qualification-requirements)]
-    (send-and-parse "RegisterHITType" params)))
+   :RegisterHITType {:op-string "RegisterHITType"
+                     :schema hits-schemas/RegisterHITType
+                     :validator validate-qualification-if-exists}
 
-(defn create-hit
-  [{:keys [hit-type-id] :as params}]
-  (if-not (empty? hit-type-id)
-    (create-hit-with-type-id params)
-    (create-hit-with-property-values params)))
+   :CreateHIT {:op-string "CreateHIT"
+               :schema hits-schemas/CreateHIT
+               :validator validate-qualification-if-exists}
 
-(defn disable-hit
-  [hit-id]
-  (send-and-parse "DisableHIT" {:HITId hit-id}))
+   :DisableHIT {:op-string "DisableHIT"
+                :schema hits-schemas/HITIdOnly}
 
-(defn dispose-hit
-  [hit-id]
-  (send-and-parse "DisposeHIT" {:HITId hit-id}))
+   :DisposeHIT {:op-string "DisposeHIT"
+                :schema hits-schemas/HITIdOnly}
+
+   :ChangeHITTypeOfHIT {:op-string "ChangeHITTypeOfHIT"
+                        :schema hits-schemas/ChangeHITTypeOfHIT}
+
+   :ExtendHIT {:op-string "ExtendHIT"
+               :schema hits-schemas/ExtendHIT}
+
+   :ForceExpireHIT {:op-string "ForceExpireHIT"
+                    :schema hits-schemas/HITIdOnly}
+
+   :GetReviewResultsForHIT {:op-string "GetReviewResultsForHIT"
+                            :schema hits-schemas/GetReviewResultsForHIT}
+
+   :SetHITAsReviewing {:op-string "SetHITAsReviewing"
+                       :schema hits-schemas/SetHITAsReviewing}
+
+   :SetHITTypeNotification {:op-string "SetHITTypeNotification"
+                            :schema hits-schemas/SetHITTypeNotification}})

@@ -1,0 +1,65 @@
+{:SearchHITsResponse
+   [{:OperationRequest
+     [{:RequestId ["057bdcda-265c-438f-9a82-8cc840f33848"]}]}
+    {:SearchHITsResult
+     [{:Request [{:IsValid ["True"]}]}
+      {:NumResults ["2"]}
+      {:TotalNumResults ["2"]}
+      {:PageNumber ["1"]}
+      {:HIT
+       [{:HITId ["32W3UF2EZO49LXS83EVHVUYUB0PC4T"]}
+        {:HITTypeId ["3L55M9M850CUHK36475FRIWIOKN9OL"]}
+        {:HITGroupId ["386OMAYRY668S5ZIBR8QJJJDWWDQIR"]}
+        {:HITLayoutId ["3H03YZA6SOB7IRBTG3CTKIC1RJF8EW"]}
+        {:CreationTime ["2016-08-02T06:50:04Z"]}
+        {:Title ["TestHITType2016-08-02T05:13:54.287Z"]}
+        {:Description ["Test generated hittype"]}
+        {:Keywords ["test"]}
+        {:HITStatus ["Reviewable"]}
+        {:MaxAssignments ["1"]}
+        {:Reward
+         [{:Amount ["0.50"]}
+          {:CurrencyCode ["USD"]}
+          {:FormattedPrice ["$0.50"]}]}
+        {:AutoApprovalDelayInSeconds ["2592000"]}
+        {:Expiration ["2016-08-02T08:30:04Z"]}
+        {:AssignmentDurationInSeconds ["600"]}
+        {:QualificationRequirement
+         [{:QualificationTypeId ["00000000000000000071"]}
+          {:Comparator ["In"]}
+          {:LocaleValue [{:Country ["GB"]}]}
+          {:LocaleValue [{:Country ["IN"]}]}
+          {:LocaleValue [{:Country ["US"]}]}
+          {:RequiredToPreview ["0"]}]}
+        {:HITReviewStatus ["NotReviewed"]}
+        {:NumberOfAssignmentsPending ["0"]}
+        {:NumberOfAssignmentsAvailable ["1"]}
+        {:NumberOfAssignmentsCompleted ["0"]}]}
+      {:HIT
+       [{:HITId ["3VMV5CHJZ8Y6JUN3K1S8TTV1PRCTGU"]}
+        {:HITTypeId ["30FTNIG7Z2VQKXEEMJ4SLGTRYI93NK"]}
+        {:HITGroupId ["36MWL0IRGCS5BYBIQWY1U2NYHJHOHR"]}
+        {:CreationTime ["2016-08-04T12:17:07Z"]}
+        {:Title ["TestHITType2016-08-04T12:17:04.788Z"]}
+        {:Description ["Test generated hittype"]}
+        {:Keywords ["test"]}
+        {:HITStatus ["Assignable"]}
+        {:MaxAssignments ["1"]}
+        {:Reward
+         [{:Amount ["0.50"]}
+          {:CurrencyCode ["USD"]}
+          {:FormattedPrice ["$0.50"]}]}
+        {:AutoApprovalDelayInSeconds ["2592000"]}
+        {:Expiration ["2016-08-04T13:57:07Z"]}
+        {:AssignmentDurationInSeconds ["600"]}
+        {:QualificationRequirement
+         [{:QualificationTypeId ["00000000000000000071"]}
+          {:Comparator ["In"]}
+          {:LocaleValue [{:Country ["GB"]}]}
+          {:LocaleValue [{:Country ["IN"]}]}
+          {:LocaleValue [{:Country ["US"]}]}
+          {:RequiredToPreview ["0"]}]}
+        {:HITReviewStatus ["NotReviewed"]}
+        {:NumberOfAssignmentsPending ["0"]}
+        {:NumberOfAssignmentsAvailable ["1"]}
+        {:NumberOfAssignmentsCompleted ["0"]}]}]}]}
