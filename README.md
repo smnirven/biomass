@@ -2,7 +2,7 @@
 
 Drive [Amazon Mechanical Turk](http://mturk.com) from your Clojure apps.
 
-biomass is an implementation of the Amazon Web Services Mechanical Turk REST API in clojure.
+Biomass is an implementation of the Amazon Web Services Mechanical Turk REST API in clojure.
 
 Previously [smnirven/biomass](https://github.com/smnirven/biomass)
 
@@ -12,7 +12,7 @@ Previously [smnirven/biomass](https://github.com/smnirven/biomass)
 
 # Kudos
 
-Kudos to [Robert Boyd] (https://github.com/rboyd) and [Thomas Steffes] (https://github.com/smnirven) for the previous implementations
+Kudos to [Robert Boyd](https://github.com/rboyd) and [Thomas Steffes](https://github.com/smnirven) for the previous implementations
 
 # Configuration
 
@@ -117,4 +117,5 @@ AWS_ACCESS_KEY="access-key" AWS_SECRET_KEY="secret-key" SANDBOX_WORKER_ID="worke
 
 ## License
 
-Copyright © 2017 Shafeeq Kunnakkadan and Akshay Gupta. Released under the MIT license. http://mit-license.org
+Copyright © 2017 Shafeeq Kunnakkadan and Akshay Gupta.  
+  Released under the MIT license. http://mit-license.org
