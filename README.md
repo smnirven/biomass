@@ -6,11 +6,11 @@ biomass is an implementation of the Amazon Web Services Mechanical Turk REST API
 
 Previously [smnirven/biomass](https://github.com/smnirven/biomass)
 
-#Build Status
+# Build Status
 
 [![Build Status](https://travis-ci.org/shafeeq/biomass.svg?branch=operations-with-schema)](https://travis-ci.org/shafeeq/biomass)
 
-#Kudos
+# Kudos
 
 Kudos to [Robert Boyd] (https://github.com/rboyd) and [Thomas Steffes] (https://github.com/smnirven) for the previous implementations
 
@@ -107,7 +107,7 @@ Approving all submitted assignments and disposing hits:
     (biomass.request/requester :DisposeHIT {:HITId hit})))
 ```
 
-##Testing
+## Testing
 
 Set the `AWS_ACCESS_KEY`, `AWS_SECRET_KEY`, and `SANDBOX_WORKER_ID` environment variables before testing.
 Example:
@@ -117,6 +117,4 @@ AWS_ACCESS_KEY="access-key" AWS_SECRET_KEY="secret-key" SANDBOX_WORKER_ID="worke
 
 ## License
 
-Copyright © 2016 Shafeeq Kunnakkadan
-
-Distributed under the Eclipse Public License, the same as Clojure.
+Copyright © 2017 Shafeeq Kunnakkadan and Akshay Gupta. Released under the MIT license. http://mit-license.org
